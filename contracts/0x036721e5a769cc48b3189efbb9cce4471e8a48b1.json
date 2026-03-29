@@ -1,0 +1,304 @@
+{
+  "schemaVersion": "1.0",
+  "chainId": 1,
+  "address": "0x036721e5a769cc48b3189efbb9cce4471e8a48b1",
+  "includes": ["erc721"],
+  "meta": {
+    "version": 1,
+    "lastUpdated": "2026-03-28T00:00:00Z",
+    "locale": "en"
+  },
+  "contract": {
+    "title": "Checks Originals",
+    "shortDescription": "Onchain generative art examining the meaning of verification in the age of the internet.",
+    "description": "Checks is an onchain artwork by Jack Butcher exploring the inversion of status, institutions, and notability. Launched as a 24-hour open edition on January 3, 2023, at $8 per mint — a direct reference to the cost of Twitter Blue verification. 16,031 pieces were minted. The Originals contract stores the artwork entirely onchain as SVG. Holders can composite (burn) pairs of tokens to halve the number of checks displayed, ascending through tiers of 80, 40, 20, 10, 5, 4, and 1 check. Burning 64 single-check tokens creates a Black Check — mathematically, only 3 can ever exist.",
+    "origin": "Created by Jack Butcher / Visualize Value. Onchain rendering co-built with Jalil Wahdatehagh. Editions contract launched January 2023; Originals contract mints fully onchain SVG tokens by burning the corresponding Editions.",
+    "about": [
+      {
+        "heading": "This artwork may or may not be notable",
+        "body": "Checks was born from a cultural flashpoint: when Elon Musk transformed Twitter's blue verification checkmark from a marker of institutional legitimacy into a purchasable subscription. The artwork — a grid of colorful checkmarks — asks what happens when anyone can buy the symbol of notability. Each piece consists of 80 checks arranged in an 8×10 grid, rendered in varying colors directly from the Ethereum blockchain."
+      },
+      {
+        "heading": "Compositing and the burn ladder",
+        "body": "The number 80 is semi-perfect — its proper divisors (1, 4, 5, 10, 20, 40) sum to exactly 80. This mathematical property structures the entire compositing system. Holders can burn two tokens of one tier to produce one token of the next tier: two 80-check pieces become one 40-check, two 40s become a 20, and so on down to a single check. The ultimate prize — a Black Check — requires burning 64 single-check tokens, which means 4,096 original editions must be consumed to create one. Given the total supply of 16,031, at most 3 Black Checks can ever exist."
+      },
+      {
+        "heading": "Fully onchain art",
+        "body": "Unlike most NFT projects that store images on IPFS or centralized servers, every Checks Original is rendered as SVG directly from the smart contract. The artwork, its colors, and its metadata are all computed and stored onchain with no external dependencies. Editions can be migrated to Originals at any time — migration burns the Edition token and mints an Original that retains the same token ID, removing artist control and making the work fully trustless."
+      }
+    ],
+    "category": "nft",
+    "tags": ["nft", "generative-art", "onchain", "burn-mechanic", "svg"],
+    "links": [
+      { "label": "Etherscan", "url": "https://etherscan.io/address/0x036721e5A769Cc48B3189EFbb9ccE4471E8A48B1" },
+      { "label": "Website", "url": "https://checks.art" },
+      { "label": "Jack Butcher", "url": "https://www.jack.art/checks-originals" }
+    ]
+  },
+  "presentation": {
+    "primaryColor": "#E84AA9"
+  },
+  "groups": {
+    "minting": { "label": "Minting", "order": 1 },
+    "art": { "label": "Artwork", "order": 2 },
+    "compositing": { "label": "Compositing", "order": 3 },
+    "info": { "label": "Token Info", "order": 4 }
+  },
+  "functions": {
+    "mint": {
+      "title": "Mint Original",
+      "description": "Mint Checks Originals by burning the corresponding Edition tokens. Each Original is created fully onchain with the same token ID as the burned Edition. This is the only way new Originals enter existence.",
+      "group": "minting",
+      "params": {
+        "tokenIds": {
+          "label": "edition token IDs",
+          "description": "The Edition token IDs to mint"
+        },
+        "recipient": {
+          "label": "recipient",
+          "description": "Address to receive the Originals",
+          "inputHint": "ens-resolve"
+        }
+      }
+    },
+    "getCheck": {
+      "title": "Get Check",
+      "description": "Look up the full onchain data for a specific Check, including its visual genome and compositing history.",
+      "stateMutability": "view",
+      "group": "art",
+      "params": {
+        "tokenId": {
+          "label": "token ID",
+          "description": "The Check token ID (matches the original edition number)",
+          "displayHint": "nft"
+        }
+      },
+      "examples": [
+        { "label": "Look up Check #1", "params": { "tokenId": "1" } },
+        { "label": "Look up Check #8000", "params": { "tokenId": "8000" } }
+      ]
+    },
+    "svg": {
+      "title": "Render SVG",
+      "description": "Render the fully onchain SVG artwork for a Check. The entire image is generated from contract storage.",
+      "stateMutability": "view",
+      "group": "art",
+      "params": {
+        "tokenId": { "label": "token ID", "displayHint": "nft" }
+      },
+      "related": ["colors", "tokenURI"]
+    },
+    "colors": {
+      "title": "Colors",
+      "description": "Get the color names and values used in a specific Check.",
+      "stateMutability": "view",
+      "group": "art",
+      "params": {
+        "tokenId": { "label": "token ID", "displayHint": "nft" }
+      },
+      "related": ["svg", "getCheck"]
+    },
+    "tokenURI": {
+      "title": "Token URI",
+      "description": "Returns the full onchain metadata and base64-encoded SVG for a Check. No external hosting or IPFS dependency.",
+      "stateMutability": "view",
+      "group": "art",
+      "params": {
+        "tokenId": { "label": "token ID", "displayHint": "nft" }
+      },
+      "related": ["svg"]
+    },
+    "composite": {
+      "title": "Composite",
+      "description": "Burn two Checks of the same tier to create one Check of the next tier (e.g. two 80-checks become one 40-check). The kept token ID carries forward.",
+      "intent": "Composite Check #{tokenId} with #{burnId}",
+      "group": "compositing",
+      "warning": "Permanently burns one token. The burn cannot be reversed.",
+      "params": {
+        "tokenId": {
+          "label": "keep token ID",
+          "description": "The token ID to keep (carries forward)",
+          "displayHint": "nft"
+        },
+        "burnId": {
+          "label": "burn token ID",
+          "description": "The token ID to burn",
+          "displayHint": "nft"
+        },
+        "swap": {
+          "label": "swap visual",
+          "description": "By default, the kept token's colors carry into the composite. Enable swap to use the burned token's colors instead — the kept token ID survives, but it looks like the burned one"
+        }
+      },
+      "related": ["simulateComposite", "compositeMany", "getCheck"]
+    },
+    "compositeMany": {
+      "title": "Composite Many",
+      "description": "Batch-composite multiple pairs of Checks in a single transaction. Each pair burns one token and keeps the other.",
+      "group": "compositing",
+      "warning": "Permanently burns tokens. Burns cannot be reversed.",
+      "params": {
+        "tokenIds": {
+          "label": "keep token IDs",
+          "description": "The token IDs to keep"
+        },
+        "burnIds": {
+          "label": "burn token IDs",
+          "description": "The token IDs to burn (matched by index with keep IDs)"
+        }
+      },
+      "related": ["composite"]
+    },
+    "simulateComposite": {
+      "title": "Simulate Composite",
+      "description": "Preview what a composite would produce without executing it. Returns the resulting Check data.",
+      "intent": "Preview composite of #{tokenId} with #{burnId}",
+      "stateMutability": "view",
+      "group": "compositing",
+      "params": {
+        "tokenId": { "label": "keep token ID", "displayHint": "nft" },
+        "burnId": { "label": "burn token ID", "displayHint": "nft" }
+      },
+      "related": ["simulateCompositeSVG", "composite"]
+    },
+    "simulateCompositeSVG": {
+      "title": "Simulate Composite SVG",
+      "description": "Preview the SVG artwork that would result from compositing two Checks, without executing the burn.",
+      "stateMutability": "view",
+      "group": "compositing",
+      "params": {
+        "tokenId": { "label": "keep token ID", "displayHint": "nft" },
+        "burnId": { "label": "burn token ID", "displayHint": "nft" }
+      },
+      "related": ["simulateComposite", "composite"]
+    },
+    "infinity": {
+      "title": "Infinity (Black Check)",
+      "description": "Burn 64 single-check tokens to create a Black Check — the rarest possible outcome. Given the original supply of 16,031, at most 3 could ever be created.",
+      "intent": "Burn 64 single-check tokens to create a Black Check",
+      "group": "compositing",
+      "warning": "Irreversibly burns 64 single-check tokens. Requires all tokens to be single-checks.",
+      "params": {
+        "tokenIds": {
+          "label": "token IDs",
+          "description": "64 single-check token IDs to burn"
+        }
+      },
+      "related": ["composite", "getCheck"]
+    },
+    "inItForTheArt": {
+      "title": "Sacrifice",
+      "description": "Sacrifice one Check to transfer its visual identity to another. Burns the sacrificed token and overwrites the receiving token's visual genome.",
+      "intent": "Sacrifice Check #{burnId} to transfer its visual to #{tokenId}",
+      "group": "compositing",
+      "warning": "Permanently burns the sacrificed token.",
+      "params": {
+        "tokenId": {
+          "label": "receiving token ID",
+          "description": "The token that receives the visual",
+          "displayHint": "nft"
+        },
+        "burnId": {
+          "label": "sacrificed token ID",
+          "description": "The token to burn (its visual transfers to the receiver)",
+          "displayHint": "nft"
+        }
+      },
+      "related": ["inItForTheArts"]
+    },
+    "inItForTheArts": {
+      "title": "Sacrifice Many",
+      "description": "Batch-sacrifice multiple Checks in a single transaction.",
+      "group": "compositing",
+      "warning": "Permanently burns the sacrificed tokens.",
+      "params": {
+        "tokenIds": { "label": "receiving token IDs" },
+        "burnIds": { "label": "sacrificed token IDs" }
+      },
+      "related": ["inItForTheArt"]
+    },
+    "burn": {
+      "title": "Burn",
+      "description": "Permanently burn a Check. The token is destroyed and removed from supply.",
+      "intent": "Burn Check #{tokenId}",
+      "group": "compositing",
+      "warning": "Irreversible — the token is permanently destroyed.",
+      "params": {
+        "tokenId": { "label": "token ID", "displayHint": "nft" }
+      }
+    },
+    "resolveEpochIfNecessary": {
+      "title": "Resolve Epoch",
+      "description": "Resolves the current epoch using a commit-reveal scheme. Epochs seed the randomness that determines a token's visual traits upon migration. Called automatically when needed but can be triggered manually.",
+      "group": "info"
+    },
+    "getEpoch": {
+      "title": "Current Epoch",
+      "description": "Returns the current epoch index.",
+      "stateMutability": "view",
+      "group": "info",
+      "related": ["getEpochData"]
+    },
+    "getEpochData": {
+      "title": "Epoch Data",
+      "description": "Returns data for a specific epoch, including the reveal block used for randomness.",
+      "stateMutability": "view",
+      "group": "info",
+      "params": {
+        "index": { "label": "epoch index" }
+      },
+      "related": ["getEpoch"]
+    },
+    "totalSupply": {
+      "title": "Total Supply",
+      "description": "Current number of Checks Originals in existence (minted minus burned).",
+      "stateMutability": "view",
+      "group": "info"
+    },
+    "name": {
+      "description": "The name of the contract (Checks).",
+      "group": "info"
+    },
+    "symbol": {
+      "description": "The token symbol (CHECKS).",
+      "group": "info"
+    }
+  },
+  "events": {
+    "Composite": {
+      "description": "Emitted when two Checks are composited, burning one and producing a piece with fewer checks (e.g. 80 → 40).",
+      "params": {
+        "tokenId": { "label": "kept token ID", "displayHint": "nft" },
+        "burnId": { "label": "burned token ID", "displayHint": "nft" },
+        "divisor": { "label": "new divisor" }
+      }
+    },
+    "Sacrifice": {
+      "description": "Emitted when a Check is sacrificed to transfer its visual identity to another.",
+      "params": {
+        "burnId": { "label": "sacrificed token ID", "displayHint": "nft" },
+        "tokenId": { "label": "receiving token ID", "displayHint": "nft" }
+      }
+    },
+    "Infinity": {
+      "description": "Emitted when 64 single-check tokens are burned to create a Black Check.",
+      "params": {
+        "blackCheckId": { "label": "Black Check token ID", "displayHint": "nft" },
+        "tokenIds": { "label": "burned token IDs" }
+      }
+    },
+    "NewEpoch": {
+      "description": "Emitted when a new epoch is created for the commit-reveal randomness scheme.",
+      "params": {
+        "epoch": { "label": "epoch index" },
+        "revealBlock": { "label": "reveal block" }
+      }
+    },
+    "MetadataUpdate": {
+      "description": "Emitted when a token's metadata changes (e.g. after compositing).",
+      "params": {
+        "_tokenId": { "label": "token ID", "displayHint": "nft" }
+      }
+    }
+  }
+}

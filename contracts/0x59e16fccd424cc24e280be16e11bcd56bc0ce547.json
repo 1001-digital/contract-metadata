@@ -1,0 +1,247 @@
+{
+  "schemaVersion": "1.0",
+  "chainId": 1,
+  "address": "0x59e16fccd424cc24e280be16e11bcd56bc0ce547",
+  "meta": {
+    "version": 1,
+    "lastUpdated": "2026-03-28T00:00:00Z",
+    "locale": "en"
+  },
+  "contract": {
+    "title": "ENS ETH Registrar Controller",
+    "shortDescription": "Register, renew, and manage .eth names on the Ethereum Name Service.",
+    "description": "The user-facing controller for .eth name registrations on ENS. Implements a commit-reveal scheme to prevent front-running, enforces minimum registration duration (28 days), and collects ETH payment based on name length and duration. Names are priced in USD and converted to ETH via Chainlink. Recently expired names carry a temporary premium that decays exponentially over ~21 days.",
+    "origin": "Deployed September 2025 by ENS Labs (v1.6.0). Part of the ENS protocol, the decentralized naming system for Ethereum. Succeeds earlier controllers at 0x253553366Da8546fC250F225fe3d25d0C782303b (v3) and 0x283Af0B28c62C092C9727F1Ee09c02CA627EB7F5 (v2).",
+    "about": [
+      {
+        "heading": "Two-step registration (commit-reveal)",
+        "body": "Registering a .eth name requires two transactions to prevent front-running. First, the user submits a hidden commitment — a hash of the desired name, owner, duration, and a random secret. After waiting at least 60 seconds (but no more than 24 hours), the user reveals the registration details and pays the fee. This prevents miners or bots from seeing a pending registration and stealing the name by submitting their own transaction first."
+      },
+      {
+        "heading": "Pricing by name length",
+        "body": "Names are priced annually in USD, converted to ETH at the current exchange rate via Chainlink. Shorter names cost more: 5+ character names cost approximately $5/year, 4-character names ~$160/year, and 3-character names ~$640/year. Names must be at least 3 characters. The minimum registration duration is 28 days."
+      },
+      {
+        "heading": "Expired name premiums",
+        "body": "When a name expires, the owner has a 90-day grace period to renew. After the grace period, the name becomes available but carries a temporary premium that starts extremely high and decays exponentially — halving roughly every day. After about 21 days the premium becomes negligible. This Dutch auction mechanism ensures fair price discovery for desirable expired names and prevents sniping at the moment of expiry."
+      },
+      {
+        "heading": "The ENS architecture",
+        "body": "ENS separates concerns across multiple contracts. The ENS Registry maps names to owners and resolvers. The Base Registrar is the ERC-721 NFT contract that tracks .eth name ownership and expiry. This Controller is the user-facing entry point that orchestrates registration: it handles pricing, commit-reveal, and can atomically set a resolver and records (addresses, text records, content hashes) during registration. Resolvers are separate contracts that store the actual records a name points to."
+      }
+    ],
+    "category": "identity",
+    "tags": ["ens", "identity", "naming", "dns", "infrastructure"],
+    "links": [
+      { "label": "Etherscan", "url": "https://etherscan.io/address/0x59E16fcCd424Cc24e280Be16E11Bcd56bc0CE547" },
+      { "label": "ENS", "url": "https://ens.domains" },
+      { "label": "Documentation", "url": "https://docs.ens.domains" },
+      { "label": "ENS App", "url": "https://app.ens.domains" }
+    ]
+  },
+  "presentation": {
+    "primaryColor": "#5284FF"
+  },
+  "groups": {
+    "registration": { "label": "Registration", "order": 1 },
+    "renewal": { "label": "Renewal", "order": 2 },
+    "info": { "label": "Info", "order": 3 },
+    "admin": { "label": "Admin", "order": 4 }
+  },
+  "functions": {
+    "available": {
+      "title": "Check Availability",
+      "description": "Check whether a .eth name is available for registration. Returns false if the name is currently registered or in its 90-day grace period.",
+      "stateMutability": "view",
+      "group": "info",
+      "params": {
+        "label": {
+          "label": "name",
+          "description": "The name to check (without .eth suffix, e.g. \"vitalik\")"
+        }
+      },
+      "examples": [
+        { "label": "Check \"vitalik\"", "params": { "label": "vitalik" } },
+        { "label": "Check \"ethereum\"", "params": { "label": "ethereum" } }
+      ]
+    },
+    "rentPrice": {
+      "title": "Price",
+      "description": "Get the registration or renewal price for a name. Returns the base price and any temporary premium (for recently expired names). Prices are in wei, converted from USD via Chainlink.",
+      "stateMutability": "view",
+      "group": "info",
+      "params": {
+        "label": {
+          "label": "name",
+          "description": "The name to price (without .eth suffix)"
+        },
+        "duration": {
+          "label": "duration",
+          "description": "Registration duration in seconds (minimum 28 days / 2419200 seconds)",
+          "displayHint": "duration"
+        }
+      },
+      "related": ["available", "register"],
+      "examples": [
+        { "label": "Price \"alice\" for 1 year", "params": { "label": "alice", "duration": "31536000" } }
+      ]
+    },
+    "valid": {
+      "title": "Valid Name",
+      "description": "Check whether a name meets the minimum length requirement (3+ characters).",
+      "stateMutability": "view",
+      "group": "info",
+      "params": {
+        "label": {
+          "label": "name",
+          "description": "The name to validate (without .eth suffix)"
+        }
+      }
+    },
+    "makeCommitment": {
+      "title": "Make Commitment",
+      "description": "Generate a commitment hash for the first step of registration. Call this off-chain, then submit the hash via commit(). The commitment hides the name being registered to prevent front-running.",
+      "stateMutability": "pure",
+      "group": "registration",
+      "params": {
+        "registration": {
+          "label": "registration",
+          "description": "Registration details: label, owner, duration, secret, resolver, records data, reverse record flags, and referrer"
+        }
+      },
+      "related": ["commit", "register"]
+    },
+    "commit": {
+      "title": "Commit",
+      "description": "Submit a commitment hash — the first step of the two-step registration process. After committing, wait at least 60 seconds before calling register(). The commitment expires after 24 hours.",
+      "group": "registration",
+      "params": {
+        "commitment": {
+          "label": "commitment",
+          "description": "The commitment hash from makeCommitment()"
+        }
+      },
+      "related": ["makeCommitment", "register"]
+    },
+    "register": {
+      "title": "Register",
+      "description": "Complete a name registration — the second step after commit(). Submit the same registration details used to generate the commitment, along with ETH payment. The contract verifies the commitment, registers the name, optionally sets resolver and records, and refunds excess ETH.",
+      "intent": "Register {registration}.eth",
+      "group": "registration",
+      "warning": "Sends ETH. Ensure you committed at least 60 seconds ago and that the commitment has not expired (24 hour window).",
+      "params": {
+        "registration": {
+          "label": "registration",
+          "description": "The same Registration struct used in makeCommitment(): label, owner, duration, secret, resolver, data, reverseRecord, referrer"
+        }
+      },
+      "related": ["commit", "makeCommitment", "rentPrice", "available"]
+    },
+    "renew": {
+      "title": "Renew",
+      "description": "Extend the registration of a .eth name. Anyone can renew any name — you don't have to be the owner. Only the base price is charged (no premium). Excess ETH is refunded.",
+      "intent": "Renew {label}.eth for {duration}",
+      "group": "renewal",
+      "warning": "Sends ETH to cover the renewal cost.",
+      "params": {
+        "label": {
+          "label": "name",
+          "description": "The name to renew (without .eth suffix)"
+        },
+        "duration": {
+          "label": "duration",
+          "description": "Additional time to add in seconds",
+          "displayHint": "duration"
+        },
+        "referrer": {
+          "label": "referrer",
+          "description": "Optional referrer identifier"
+        }
+      },
+      "related": ["rentPrice"]
+    },
+    "commitments": {
+      "title": "Commitment Timestamp",
+      "description": "Check when a commitment was submitted. Returns the block timestamp of the commit transaction, or 0 if the commitment doesn't exist.",
+      "stateMutability": "view",
+      "group": "registration",
+      "params": {
+        "_0": {
+          "label": "commitment hash"
+        }
+      },
+      "returns": {
+        "_0": { "displayHint": "timestamp" }
+      }
+    },
+    "minCommitmentAge": {
+      "title": "Min Commitment Age",
+      "description": "Minimum time (in seconds) that must pass between commit() and register(). Typically 60 seconds.",
+      "stateMutability": "view",
+      "group": "info",
+      "returns": { "_0": { "displayHint": "duration" } }
+    },
+    "maxCommitmentAge": {
+      "title": "Max Commitment Age",
+      "description": "Maximum time (in seconds) a commitment remains valid. After this, the commitment expires and a new one must be made. Typically 24 hours.",
+      "stateMutability": "view",
+      "group": "info",
+      "returns": { "_0": { "displayHint": "duration" } }
+    },
+    "withdraw": {
+      "title": "Withdraw",
+      "description": "Withdraw accumulated ETH from the contract. Only callable by the contract owner.",
+      "group": "admin"
+    },
+    "recoverFunds": {
+      "title": "Recover ERC-20 Tokens",
+      "description": "Recover ERC-20 tokens accidentally sent to this contract. Only callable by the contract owner.",
+      "group": "admin",
+      "params": {
+        "_token": { "label": "token address", "displayHint": "address" },
+        "_to": { "label": "recipient", "inputHint": "ens-resolve" },
+        "_amount": { "label": "amount" }
+      }
+    },
+    "owner": {
+      "title": "Owner",
+      "description": "The address that controls admin functions (withdraw, recover funds).",
+      "stateMutability": "view",
+      "group": "admin",
+      "returns": { "_0": { "displayHint": "address" } }
+    },
+    "supportsInterface": {
+      "title": "Supports Interface",
+      "description": "Check whether this contract implements a specific interface (EIP-165).",
+      "stateMutability": "view",
+      "group": "info",
+      "params": {
+        "interfaceID": { "label": "interface ID" }
+      }
+    }
+  },
+  "events": {
+    "NameRegistered": {
+      "description": "Emitted when a .eth name is successfully registered.",
+      "params": {
+        "label": { "label": "name" },
+        "labelhash": { "label": "labelhash" },
+        "owner": { "label": "owner", "displayHint": "address" },
+        "baseCost": { "label": "base cost", "displayHint": "eth" },
+        "premium": { "label": "premium", "displayHint": "eth" },
+        "expires": { "label": "expires", "displayHint": "timestamp" },
+        "referrer": { "label": "referrer" }
+      }
+    },
+    "NameRenewed": {
+      "description": "Emitted when a .eth name is renewed.",
+      "params": {
+        "label": { "label": "name" },
+        "labelhash": { "label": "labelhash" },
+        "cost": { "label": "cost", "displayHint": "eth" },
+        "expires": { "label": "new expiry", "displayHint": "timestamp" },
+        "referrer": { "label": "referrer" }
+      }
+    }
+  }
+}

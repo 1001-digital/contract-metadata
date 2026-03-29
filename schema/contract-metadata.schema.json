@@ -1,0 +1,582 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/1001-digital/contract-metadata/schema/contract-metadata.schema.json",
+  "title": "Contract Metadata",
+  "description": "Human-readable context for smart contracts. Enriches ABI data with titles, descriptions, semantic type annotations, and presentation hints.",
+  "type": "object",
+  "required": ["schemaVersion", "chainId"],
+  "additionalProperties": false,
+  "anyOf": [
+    { "required": ["address"] },
+    { "required": ["factory"] }
+  ],
+  "properties": {
+    "schemaVersion": {
+      "type": "string",
+      "enum": ["1.0"],
+      "description": "Schema version identifier."
+    },
+    "chainId": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The chain ID of the network where the contract is deployed."
+    },
+    "address": {
+      "type": "string",
+      "pattern": "^0x[0-9a-f]{40}$",
+      "description": "The contract address (lowercase, without checksum). Use this for a specific deployed contract."
+    },
+    "factory": {
+      "$ref": "#/$defs/Factory",
+      "description": "Factory binding. Use instead of address when this metadata applies to all contracts deployed by a factory."
+    },
+    "includes": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Interface identifiers to include (e.g. \"erc20\", \"erc721\"). Included metadata is merged with contract-specific metadata taking priority."
+    },
+    "meta": {
+      "$ref": "#/$defs/DocumentMeta",
+      "description": "Document-level housekeeping: revision tracking, locale, and authenticity."
+    },
+    "contract": {
+      "$ref": "#/$defs/ContractMeta"
+    },
+    "presentation": {
+      "$ref": "#/$defs/Presentation",
+      "description": "Visual presentation hints for the UI."
+    },
+    "groups": {
+      "type": "object",
+      "description": "Named groups for organizing functions in the UI. Keys are group identifiers referenced by functions.",
+      "additionalProperties": {
+        "$ref": "#/$defs/Group"
+      }
+    },
+    "functions": {
+      "type": "object",
+      "description": "Per-function metadata, keyed by ABI function name.",
+      "additionalProperties": {
+        "$ref": "#/$defs/FunctionMeta"
+      }
+    },
+    "events": {
+      "type": "object",
+      "description": "Per-event metadata, keyed by ABI event name.",
+      "additionalProperties": {
+        "$ref": "#/$defs/EventMeta"
+      }
+    },
+    "errors": {
+      "type": "object",
+      "description": "Per-error metadata, keyed by ABI error name.",
+      "additionalProperties": {
+        "$ref": "#/$defs/ErrorMeta"
+      }
+    },
+    "messages": {
+      "type": "object",
+      "description": "EIP-712 typed message metadata, keyed by primary type name (e.g. \"Permit\", \"Order\"). Describes off-chain signing flows verified by this contract.",
+      "additionalProperties": {
+        "$ref": "#/$defs/MessageMeta"
+      }
+    },
+    "components": {
+      "type": "object",
+      "description": "Custom web components for specialized rendering. Keyed by component name (must be a valid custom element name with a hyphen).",
+      "additionalProperties": {
+        "$ref": "#/$defs/ComponentConfig"
+      }
+    }
+  },
+  "$defs": {
+    "DocumentMeta": {
+      "type": "object",
+      "description": "Document-level housekeeping fields.",
+      "additionalProperties": false,
+      "properties": {
+        "version": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Metadata revision number. Increment when updating metadata for the same contract."
+        },
+        "lastUpdated": {
+          "type": "string",
+          "format": "date-time",
+          "description": "ISO 8601 timestamp of the last metadata update."
+        },
+        "locale": {
+          "type": "string",
+          "description": "BCP 47 language tag (e.g. \"en\", \"de\", \"ja\")."
+        },
+        "signature": {
+          "type": "string",
+          "description": "Optional signature for verifying metadata authenticity."
+        }
+      }
+    },
+    "ComponentConfig": {
+      "type": "object",
+      "required": ["src", "slot"],
+      "additionalProperties": false,
+      "description": "Configuration for a custom web component.",
+      "properties": {
+        "src": {
+          "type": "string",
+          "description": "Path to the component JS file, relative to the repo root."
+        },
+        "slot": {
+          "type": "string",
+          "enum": ["function-result", "overview"],
+          "description": "Where the component renders. 'function-result' renders below a function's output. 'overview' renders on the contract overview page."
+        },
+        "function": {
+          "type": "string",
+          "description": "For function-result slot: the ABI function name this component attaches to."
+        },
+        "props": {
+          "type": "object",
+          "additionalProperties": {},
+          "description": "Static props passed to the component via the data-props attribute."
+        }
+      }
+    },
+    "Factory": {
+      "type": "object",
+      "required": ["address", "deployEvent"],
+      "additionalProperties": false,
+      "description": "Binds metadata to all contracts deployed by a factory. Consumers can match unknown contracts by checking the factory's logs for the deploy event.",
+      "properties": {
+        "address": {
+          "type": "string",
+          "pattern": "^0x[0-9a-f]{40}$",
+          "description": "The factory contract address (lowercase)."
+        },
+        "deployEvent": {
+          "type": "string",
+          "description": "The event signature emitted when the factory deploys a new contract. The deployed contract address should be identifiable from the event parameters."
+        }
+      }
+    },
+    "ContractMeta": {
+      "type": "object",
+      "description": "Contract-level context and metadata.",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Human-readable contract name."
+        },
+        "shortDescription": {
+          "type": "string",
+          "maxLength": 200,
+          "description": "One-line description of the contract (under 200 characters)."
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of what the contract does and how it works."
+        },
+        "origin": {
+          "type": "string",
+          "description": "Provenance information: who deployed it, when, and relevant history."
+        },
+        "category": {
+          "type": "string",
+          "description": "Primary category. Standard values: token, nft, defi, governance, bridge, oracle, utility, game, social, identity. Custom values are allowed."
+        },
+        "tags": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Free-form tags for search and categorization."
+        },
+        "links": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/Link"
+          },
+          "description": "External links (website, documentation, block explorer, etc.)."
+        },
+        "risks": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Known risks or caveats users should be aware of."
+        },
+        "audits": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AuditReference"
+          },
+          "description": "Security audit references."
+        },
+        "about": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AboutSection"
+          },
+          "description": "Rich content sections providing context, history, and explanations."
+        }
+      }
+    },
+    "Presentation": {
+      "type": "object",
+      "description": "Visual presentation hints for the UI.",
+      "additionalProperties": false,
+      "properties": {
+        "primaryColor": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$",
+          "description": "Primary brand color as a hex string (e.g. \"#ff04b4\")."
+        },
+        "icon": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to a contract icon or logo."
+        }
+      }
+    },
+    "AboutSection": {
+      "type": "object",
+      "required": ["heading", "body"],
+      "additionalProperties": false,
+      "properties": {
+        "heading": {
+          "type": "string",
+          "description": "Section heading."
+        },
+        "body": {
+          "type": "string",
+          "description": "Section content. Paragraphs are separated by double newlines (\\n\\n)."
+        }
+      }
+    },
+    "Link": {
+      "type": "object",
+      "required": ["label", "url"],
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "Display text for the link."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL target."
+        }
+      }
+    },
+    "AuditReference": {
+      "type": "object",
+      "required": ["auditor", "url", "date"],
+      "additionalProperties": false,
+      "properties": {
+        "auditor": {
+          "type": "string",
+          "description": "Name of the auditing firm."
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL to the audit report."
+        },
+        "date": {
+          "type": "string",
+          "format": "date",
+          "description": "Date of the audit (YYYY-MM-DD)."
+        },
+        "scope": {
+          "type": "string",
+          "description": "What the audit covered."
+        }
+      }
+    },
+    "Group": {
+      "type": "object",
+      "required": ["label", "order"],
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "Display label for the group."
+        },
+        "description": {
+          "type": "string",
+          "description": "Optional description of what this group contains."
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Display order (lower numbers appear first)."
+        }
+      }
+    },
+    "FunctionMeta": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Human-readable function name."
+        },
+        "description": {
+          "type": "string",
+          "description": "What the function does, explained for end users."
+        },
+        "intent": {
+          "type": "string",
+          "description": "Template string rendered with formatted parameter values. Use {paramName} placeholders (e.g. \"Transfer {wad} to {dst}\"). Prefix with # to prepend a hash symbol (e.g. \"Buy Punk #{punkIndex}\" renders as \"Buy Punk #7804\"). Values are formatted using their displayHint before insertion."
+        },
+        "group": {
+          "type": "string",
+          "description": "Group key (must match a key in the top-level groups object)."
+        },
+        "warning": {
+          "type": "string",
+          "description": "Risk warning displayed to users before interaction."
+        },
+        "featured": {
+          "type": "boolean",
+          "description": "Mark as a primary/featured function. Featured functions are highlighted in the UI (e.g. the main mint, swap, or stake action)."
+        },
+        "hidden": {
+          "type": "boolean",
+          "description": "Hide this function from the default UI. Use for internal or admin-only functions that clutter the interface."
+        },
+        "stateMutability": {
+          "type": "string",
+          "enum": ["view", "pure", "nonpayable", "payable"],
+          "description": "Overrides the ABI's stateMutability. Use only to correct legacy ABIs that lack this field (e.g. pre-Byzantium contracts)."
+        },
+        "params": {
+          "type": "object",
+          "description": "Parameter metadata, keyed by ABI parameter name. Use _0, _1, etc. for unnamed parameters.",
+          "additionalProperties": {
+            "$ref": "#/$defs/ParamMeta"
+          }
+        },
+        "returns": {
+          "type": "object",
+          "description": "Return value metadata, keyed by ABI return name or _0, _1, etc.",
+          "additionalProperties": {
+            "$ref": "#/$defs/ParamMeta"
+          }
+        },
+        "examples": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/FunctionExample"
+          },
+          "description": "Preset examples for quick interaction."
+        },
+        "related": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "ABI names of related functions for navigation."
+        },
+        "deprecated": {
+          "type": "string",
+          "description": "Deprecation notice. If set, the function should be de-emphasized in the UI."
+        }
+      }
+    },
+    "MessageMeta": {
+      "type": "object",
+      "description": "Metadata for an EIP-712 typed message verified by this contract.",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Human-readable name for this message type."
+        },
+        "description": {
+          "type": "string",
+          "description": "What signing this message does, explained for end users."
+        },
+        "intent": {
+          "type": "string",
+          "description": "Template string rendered with formatted field values. Use {fieldName} placeholders (e.g. \"Permit {spender} to spend {value}\")."
+        },
+        "warning": {
+          "type": "string",
+          "description": "Risk warning displayed to users before signing."
+        },
+        "fields": {
+          "type": "object",
+          "description": "Field metadata, keyed by EIP-712 field name.",
+          "additionalProperties": {
+            "$ref": "#/$defs/ParamMeta"
+          }
+        }
+      }
+    },
+    "EventMeta": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Human-readable event name."
+        },
+        "description": {
+          "type": "string",
+          "description": "What this event signifies."
+        },
+        "params": {
+          "type": "object",
+          "description": "Parameter metadata, keyed by ABI parameter name.",
+          "additionalProperties": {
+            "$ref": "#/$defs/ParamMeta"
+          }
+        }
+      }
+    },
+    "ErrorMeta": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Human-readable error name."
+        },
+        "description": {
+          "type": "string",
+          "description": "What this error means and when it occurs."
+        },
+        "params": {
+          "type": "object",
+          "description": "Parameter metadata, keyed by ABI parameter name.",
+          "additionalProperties": {
+            "$ref": "#/$defs/ParamMeta"
+          }
+        }
+      }
+    },
+    "ParamMeta": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "Human-readable parameter name."
+        },
+        "description": {
+          "type": "string",
+          "description": "What this parameter represents."
+        },
+        "displayHint": {
+          "$ref": "#/$defs/DisplayHint",
+          "description": "Semantic type annotation for display formatting."
+        },
+        "inputHint": {
+          "$ref": "#/$defs/InputHint",
+          "description": "Guidance for how this parameter should be collected from the user."
+        },
+        "validation": {
+          "$ref": "#/$defs/ValidationRule"
+        }
+      }
+    },
+    "DisplayHint": {
+      "oneOf": [
+        {
+          "type": "string",
+          "enum": ["eth", "gwei", "timestamp", "address", "boolean", "blocknumber", "duration", "bytes32-utf8", "nft", "percentage"],
+          "description": "Simple display hint indicating what a value represents."
+        },
+        {
+          "type": "object",
+          "required": ["type"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "const": "basis-points" }
+          },
+          "description": "Value in basis points (1/100th of a percent)."
+        },
+        {
+          "type": "object",
+          "required": ["type", "tokenAddress"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "const": "token" },
+            "tokenAddress": {
+              "type": "string",
+              "pattern": "^0x[0-9a-f]{40}$",
+              "description": "The ERC-20 token contract address (lowercase)."
+            }
+          },
+          "description": "Token amount for a specific ERC-20."
+        },
+        {
+          "type": "object",
+          "required": ["type", "values"],
+          "additionalProperties": false,
+          "properties": {
+            "type": { "const": "enum" },
+            "values": {
+              "type": "object",
+              "additionalProperties": { "type": "string" },
+              "description": "Mapping of numeric values to human-readable labels."
+            }
+          },
+          "description": "Numeric enum with human-readable labels."
+        }
+      ]
+    },
+    "InputHint": {
+      "type": "string",
+      "enum": ["address-book", "ens-resolve", "token-amount", "slider", "dropdown", "hidden", "connected-address", "timestamp"],
+      "description": "Guidance for how a parameter should be collected from the user."
+    },
+    "ValidationRule": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "min": {
+          "type": "string",
+          "description": "Minimum value (as string to support uint256 range)."
+        },
+        "max": {
+          "type": "string",
+          "description": "Maximum value (as string to support uint256 range)."
+        },
+        "enum": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["value", "label"],
+            "additionalProperties": false,
+            "properties": {
+              "value": { "type": "string" },
+              "label": { "type": "string" }
+            }
+          },
+          "description": "Allowed values with labels."
+        },
+        "pattern": {
+          "type": "string",
+          "description": "Regular expression pattern the value must match."
+        },
+        "message": {
+          "type": "string",
+          "description": "Custom validation error message."
+        }
+      }
+    },
+    "FunctionExample": {
+      "type": "object",
+      "required": ["label", "params"],
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string",
+          "description": "Description of the example."
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "Parameter values for the example, keyed by parameter name."
+        }
+      }
+    }
+  }
+}

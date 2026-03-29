@@ -1,0 +1,375 @@
+{
+  "schemaVersion": "1.0",
+  "chainId": 1,
+  "address": "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb",
+  "meta": {
+    "version": 1,
+    "lastUpdated": "2026-03-18T00:00:00Z",
+    "locale": "en"
+  },
+  "contract": {
+    "title": "CryptoPunks",
+    "shortDescription": "10,000 unique collectible pixel art characters on Ethereum.",
+    "description": "One of the earliest NFT projects, predating the ERC-721 standard. Each punk is a 24×24 pixel art image with randomly generated attributes including hairstyle, accessories, and skin tone.",
+    "origin": "Deployed June 2017 by Larva Labs. All 10,000 punks were initially claimable for free. Now owned by Node foundation.",
+    "about": [
+      {
+        "heading": "10,000 unique collectible characters",
+        "body": "Humans have always been collectors, gathering tangible items like gemstones and watches, intangible things like books and art, and abstract concepts like knowledge. CryptoPunks extend this collecting impulse into the digital realm. The project consists of ten thousand 24×24 pixel portraits of punks, each assembled from various individual traits such as hairstyles and jewelry."
+      },
+      {
+        "heading": "Proof of Ownership on the Ethereum Blockchain",
+        "body": "The blockchain establishes a shared historical log and single source of truth about what happened when. This enables tracking ownership of objects over time. When CryptoPunks launched, they came with code processing ownership changes for each punk. All changes must go through this immutable, unblockable program. Anyone can prove punk ownership at any moment.\n\nThe Ethereum blockchain is validated by hundreds of thousands of distributed computers globally. Anyone can participate in securing the network. No entity can change any part of its state without following blockchain rules and smart contracts. For CryptoPunks, the relevant code is called the \"CryptoPunksMarket\" smart contract."
+      },
+      {
+        "heading": "Inspired the modern CryptoArt movement",
+        "body": "The world's biggest artists, auction houses and brands agree we live in a digitized world. This is a new medium, like past art forms, and cryptography and blockchain technologies enable collecting, owning, and trading items on a global, borderless market.\n\nCryptoPunks were the seminal art project of its kind, inspiring various technological standards and spearheading an entire movement. The Punks are now exhibited in prestigious museums like Centre Pompidou and LACMA, celebrated by icons from fashion, music, art and technology.\n\nThe CryptoPunksMarket smart contract has processed billions in trading volume. Thousands of accounts have interacted with it, over 6000 have owned punks, and the most traded punk has changed hands 51 times — all handled by code under 200 lines long.\n\n2.5+ billion dollars in secure trading. 200 lines of code. A global community with no middlemen or rent seekers."
+      }
+    ],
+    "category": "nft",
+    "tags": ["nft", "collectible", "pfp", "pixel-art", "og"],
+    "links": [
+      { "label": "Etherscan", "url": "https://etherscan.io/address/0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB" },
+      { "label": "Larva Labs", "url": "https://larvalabs.com/cryptopunks" }
+    ]
+  },
+  "components": {
+    "sha256-content-prover": {
+      "src": "components/sha256-content-prover",
+      "slot": "function-result",
+      "function": "imageHash",
+      "props": {
+        "sourceUrl": "https://raw.githubusercontent.com/larvalabs/cryptopunks/master/punks.png",
+        "sourcePageUrl": "https://github.com/larvalabs/cryptopunks/blob/master/punks.png",
+        "explanationUrl": "https://punks.vv.xyz/the-art/the-punk-image",
+        "contentLabel": "Canonical image file"
+      }
+    }
+  },
+  "presentation": {
+    "primaryColor": "#ff04b4"
+  },
+  "groups": {
+    "ownership": { "label": "Ownership", "order": 1 },
+    "marketplace": { "label": "Marketplace", "order": 2 },
+    "bidding": { "label": "Bidding", "order": 3 },
+    "info": { "label": "Contract Info", "order": 4 }
+  },
+  "functions": {
+    "punkIndexToAddress": {
+      "title": "Punk Owner",
+      "description": "Look up the current owner of a specific punk by its index.",
+      "stateMutability": "view",
+      "group": "ownership",
+      "params": {
+        "_0": {
+          "label": "punk index",
+          "description": "The punk ID (0–9999)",
+          "displayHint": "nft",
+          "validation": { "min": "0", "max": "9999" }
+        }
+      },
+      "returns": { "_0": { "label": "owner", "displayHint": "address" } },
+      "examples": [
+        { "label": "Check owner of Punk #0", "params": { "_0": "0" } },
+        { "label": "Check owner of Punk #7804", "params": { "_0": "7804" } }
+      ]
+    },
+    "balanceOf": {
+      "title": "Balance",
+      "description": "Check how many punks an address owns.",
+      "stateMutability": "view",
+      "group": "ownership",
+      "params": { "_0": { "label": "holder", "inputHint": "ens-resolve" } }
+    },
+    "transferPunk": {
+      "title": "Transfer Punk",
+      "description": "Transfer a punk you own to another address. Does not go through the marketplace.",
+      "intent": "Transfer Punk #{punkIndex} to {to}",
+      "group": "ownership",
+      "warning": "This is a direct transfer with no payment involved. Make sure you intend to send the punk for free.",
+      "params": {
+        "to": { "label": "recipient", "inputHint": "ens-resolve" },
+        "punkIndex": {
+          "label": "punk index",
+          "description": "The punk ID to transfer (0–9999)",
+          "displayHint": "nft",
+          "validation": { "min": "0", "max": "9999" }
+        }
+      },
+      "related": ["punkIndexToAddress"]
+    },
+    "offerPunkForSale": {
+      "title": "List Punk for Sale",
+      "description": "List a punk you own for sale on the built-in marketplace at a minimum price.",
+      "intent": "List Punk #{punkIndex} for sale at {minSalePriceInWei} minimum",
+      "group": "marketplace",
+      "params": {
+        "punkIndex": {
+          "label": "punk index",
+          "displayHint": "nft",
+          "validation": { "min": "0", "max": "9999" }
+        },
+        "minSalePriceInWei": {
+          "label": "minimum price",
+          "description": "Minimum sale price",
+          "displayHint": "eth"
+        }
+      },
+      "related": ["punkNoLongerForSale", "buyPunk"]
+    },
+    "offerPunkForSaleToAddress": {
+      "title": "List Punk for Sale (Private)",
+      "description": "List a punk for sale to a specific address only, at a minimum price.",
+      "group": "marketplace",
+      "params": {
+        "punkIndex": {
+          "label": "punk index",
+          "displayHint": "nft",
+          "validation": { "min": "0", "max": "9999" }
+        },
+        "minSalePriceInWei": { "label": "minimum price", "displayHint": "eth" },
+        "toAddress": {
+          "label": "buyer",
+          "description": "Only this address can buy the punk",
+          "inputHint": "ens-resolve"
+        }
+      },
+      "related": ["offerPunkForSale", "buyPunk"]
+    },
+    "buyPunk": {
+      "title": "Buy Punk",
+      "description": "Buy a punk that is currently listed for sale. Send ETH equal to or greater than the asking price.",
+      "intent": "Buy Punk #{punkIndex}",
+      "group": "marketplace",
+      "warning": "Sends ETH — make sure msg.value meets the asking price.",
+      "params": {
+        "punkIndex": {
+          "label": "punk index",
+          "displayHint": "nft",
+          "validation": { "min": "0", "max": "9999" }
+        }
+      },
+      "related": ["punksOfferedForSale", "offerPunkForSale"]
+    },
+    "punkNoLongerForSale": {
+      "title": "Delist Punk",
+      "description": "Remove a punk from the marketplace. Cancels the current sale offer.",
+      "group": "marketplace",
+      "params": {
+        "punkIndex": {
+          "label": "punk index",
+          "displayHint": "nft",
+          "validation": { "min": "0", "max": "9999" }
+        }
+      },
+      "related": ["offerPunkForSale"]
+    },
+    "punksOfferedForSale": {
+      "title": "Sale Info",
+      "description": "Check if a punk is currently offered for sale and at what price.",
+      "stateMutability": "view",
+      "group": "marketplace",
+      "params": {
+        "_0": {
+          "label": "punk index",
+          "displayHint": "nft",
+          "validation": { "min": "0", "max": "9999" }
+        }
+      }
+    },
+    "enterBidForPunk": {
+      "title": "Place Bid",
+      "description": "Place a bid on a punk by sending ETH. Your ETH is held in the contract until the bid is accepted or you withdraw it.",
+      "intent": "Place bid on Punk #{punkIndex}",
+      "group": "bidding",
+      "warning": "Your ETH will be locked in the contract until the bid is accepted or withdrawn.",
+      "params": {
+        "punkIndex": {
+          "label": "punk index",
+          "displayHint": "nft",
+          "validation": { "min": "0", "max": "9999" }
+        }
+      },
+      "related": ["withdrawBidForPunk", "acceptBidForPunk", "punkBids"]
+    },
+    "withdrawBidForPunk": {
+      "title": "Withdraw Bid",
+      "description": "Withdraw your bid on a punk, returning your locked ETH.",
+      "group": "bidding",
+      "params": {
+        "punkIndex": {
+          "label": "punk index",
+          "displayHint": "nft",
+          "validation": { "min": "0", "max": "9999" }
+        }
+      },
+      "related": ["enterBidForPunk", "punkBids"]
+    },
+    "acceptBidForPunk": {
+      "title": "Accept Bid",
+      "description": "Accept the highest bid on a punk you own. The punk is transferred to the bidder and the bid amount is credited to your pending withdrawals.",
+      "group": "bidding",
+      "params": {
+        "punkIndex": {
+          "label": "punk index",
+          "displayHint": "nft",
+          "validation": { "min": "0", "max": "9999" }
+        },
+        "minPrice": {
+          "label": "minimum price",
+          "description": "Minimum bid amount you will accept (protects against front-running)",
+          "displayHint": "eth"
+        }
+      },
+      "related": ["enterBidForPunk", "punkBids"]
+    },
+    "punkBids": {
+      "title": "Bid Info",
+      "description": "Check the current bid on a punk.",
+      "stateMutability": "view",
+      "group": "bidding",
+      "params": {
+        "_0": {
+          "label": "punk index",
+          "displayHint": "nft",
+          "validation": { "min": "0", "max": "9999" }
+        }
+      }
+    },
+    "withdraw": {
+      "title": "Withdraw ETH",
+      "description": "Withdraw ETH owed to you from punk sales or outbid returns.",
+      "group": "marketplace",
+      "related": ["pendingWithdrawals"]
+    },
+    "pendingWithdrawals": {
+      "title": "Pending Withdrawals",
+      "description": "Check the amount of ETH an address can withdraw from sales or returned bids.",
+      "stateMutability": "view",
+      "group": "marketplace",
+      "params": { "_0": { "label": "address", "inputHint": "ens-resolve" } },
+      "returns": { "_0": { "displayHint": "eth" } },
+      "related": ["withdraw"]
+    },
+    "name": {
+      "title": "Name",
+      "description": "The name of the contract (CRYPTOPUNKS).",
+      "stateMutability": "view",
+      "group": "info"
+    },
+    "symbol": {
+      "title": "Symbol",
+      "description": "The token symbol (Ͼ).",
+      "stateMutability": "view",
+      "group": "info"
+    },
+    "totalSupply": {
+      "title": "Total Supply",
+      "description": "Total number of CryptoPunks (10,000).",
+      "stateMutability": "view",
+      "group": "info"
+    },
+    "imageHash": {
+      "title": "Image Hash",
+      "description": "SHA-256 hash of the composite image containing all 10,000 punks. Used to verify image authenticity.",
+      "stateMutability": "view",
+      "group": "info"
+    },
+    "nextPunkIndexToAssign": {
+      "title": "Next Punk Index to Assign",
+      "description": "The next punk index to be assigned during the initial claim phase. All punks have been claimed, so this is historical.",
+      "stateMutability": "view",
+      "group": "info"
+    },
+    "allPunksAssigned": {
+      "title": "All Punks Assigned",
+      "description": "Whether all 10,000 punks have been claimed. Returns true.",
+      "stateMutability": "view",
+      "group": "info"
+    },
+    "punksRemainingToAssign": {
+      "title": "Punks Remaining to Assign",
+      "description": "Number of punks still available to claim. Returns 0 (all claimed).",
+      "stateMutability": "view",
+      "group": "info"
+    },
+    "getPunk": {
+      "title": "Claim Punk (Inactive)",
+      "description": "Originally used to claim a free punk during the initial distribution. All 10,000 punks have been claimed — this function is no longer usable.",
+      "deprecated": "All 10,000 punks have been claimed. This function will revert.",
+      "group": "info",
+      "params": {
+        "punkIndex": {
+          "label": "punk index",
+          "displayHint": "nft",
+          "validation": { "min": "0", "max": "9999" }
+        }
+      }
+    }
+  },
+  "events": {
+    "PunkTransfer": {
+      "description": "Emitted when a punk is transferred between addresses.",
+      "params": {
+        "from": { "label": "from" },
+        "to": { "label": "to" },
+        "punkIndex": { "label": "punk index", "displayHint": "nft" }
+      }
+    },
+    "PunkOffered": {
+      "description": "Emitted when a punk is listed for sale.",
+      "params": {
+        "punkIndex": { "label": "punk index", "displayHint": "nft" },
+        "minValue": { "label": "minimum price", "displayHint": "eth" },
+        "toAddress": { "label": "exclusive buyer" }
+      }
+    },
+    "PunkBidEntered": {
+      "description": "Emitted when a bid is placed on a punk.",
+      "params": {
+        "punkIndex": { "label": "punk index", "displayHint": "nft" },
+        "value": { "label": "bid amount", "displayHint": "eth" },
+        "fromAddress": { "label": "bidder" }
+      }
+    },
+    "PunkBidWithdrawn": {
+      "description": "Emitted when a bid is withdrawn.",
+      "params": {
+        "punkIndex": { "label": "punk index", "displayHint": "nft" },
+        "value": { "label": "bid amount", "displayHint": "eth" },
+        "fromAddress": { "label": "bidder" }
+      }
+    },
+    "PunkBought": {
+      "description": "Emitted when a punk is sold.",
+      "params": {
+        "punkIndex": { "label": "punk index", "displayHint": "nft" },
+        "value": { "label": "sale price", "displayHint": "eth" },
+        "fromAddress": { "label": "seller" },
+        "toAddress": { "label": "buyer" }
+      }
+    },
+    "PunkNoLongerForSale": {
+      "description": "Emitted when a punk is delisted from the marketplace.",
+      "params": {
+        "punkIndex": { "label": "punk index", "displayHint": "nft" }
+      }
+    },
+    "Assign": {
+      "description": "Emitted during the initial claim phase when a punk was assigned to an address.",
+      "params": {
+        "to": { "label": "claimer" },
+        "punkIndex": { "label": "punk index", "displayHint": "nft" }
+      }
+    },
+    "Transfer": {
+      "description": "Emitted on punk transfer (legacy event, predates ERC-721).",
+      "params": {
+        "from": { "label": "from" },
+        "to": { "label": "to" },
+        "value": { "label": "count" }
+      }
+    }
+  }
+}
