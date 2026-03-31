@@ -80,7 +80,14 @@ Provides context about the contract itself:
         "body": "CryptoPunks extend the collecting impulse into the digital realm..."
       }
     ]
-  },
+  }
+}
+```
+
+The `presentation` object is a **top-level sibling** of `contract`, not nested inside it:
+
+```json
+{
   "presentation": {
     "primaryColor": "#ff04b4",
     "icon": "https://..."
@@ -217,7 +224,17 @@ Common interface metadata (ERC-20, ERC-721, etc.) can be defined once and includ
 }
 ```
 
-Interface files live in `interfaces/` and contain only `groups`, `functions`, and `events`. Contract-specific metadata takes priority over included metadata (shallow merge per key). Multiple includes merge left-to-right.
+Interface files live in `interfaces/` and contain only `groups`, `functions`, and `events` (validated by `schema/interface.schema.json`). Multiple includes merge left-to-right. Contract-specific metadata is then applied on top.
+
+**Merge semantics:** The merge is *shallow per top-level key within each section*. When a contract defines a function that also exists in an included interface, the contract's entire function object replaces the interface's — there is no deep merge of `params`, `returns`, or other nested fields. This means if you override a function, you must re-declare everything you want to keep (params, returns, displayHints, etc.).
+
+```
+# Merge order for includes: ["erc20", "erc721"]
+1. Start with empty {}
+2. Merge erc20.json    → { functions: { transfer: {from erc20}, approve: {from erc20} } }
+3. Merge erc721.json   → { functions: { transfer: {from erc721}, approve: {from erc721}, ownerOf: {from erc721} } }
+4. Merge contract file  → { functions: { transfer: {from contract}, approve: {from erc721}, ownerOf: {from erc721}, mint: {from contract} } }
+```
 
 Available interfaces: `erc20`, `erc721`.
 
@@ -296,11 +313,32 @@ Components are keyed by name and receive standardized props:
 - `chainId` — the chain ID
 - Any additional `props` defined in the metadata
 
+#### Component Security Model
+
+Components execute in the user's browser and have access to network requests, so they are security-sensitive. All components undergo review before merging:
+
+**Allowed:**
+- Fetching from a fixed, auditable set of URLs declared in `props` (e.g. GitHub raw content, IPFS gateways)
+- Using browser-native APIs (Web Crypto, Canvas) for local computation
+- Reading the `value`, `address`, and `chainId` props passed by the host
+
+**Not allowed:**
+- Fetching from user-controlled or dynamically constructed URLs (tracking/SSRF vector)
+- Accessing parent DOM, `window.opener`, or `postMessage` to the host
+- Executing arbitrary code from fetched content (`eval`, `Function()`, dynamic `import()`)
+- Storing data in `localStorage`, `IndexedDB`, or cookies
+- Bundle size exceeding 50 KB gzipped (components should be lightweight)
+
+**Review process:**
+- All component PRs require review from a maintainer
+- The `props.sourceUrl` and any other URL props must point to well-known, trusted origins
+- Components should degrade gracefully (show an error state, not crash) when network requests fail
+
 #### Contributing Components
 
 1. Open a PR adding your component implementation
 2. Reference it from the contract metadata JSON via the `components` field
-3. Components are reviewed for security (no untrusted network requests, no parent DOM access, reasonable bundle size)
+3. Components are reviewed against the security model above
 4. Approved components are merged and available to all consumers
 
 ## Relationship to Existing Standards
@@ -326,10 +364,32 @@ interfaces/
   erc20.json                                         # Shared ERC-20 metadata
   erc721.json                                        # Shared ERC-721 metadata
 schema/
-  contract-metadata.schema.json
+  contract-metadata.schema.json                      # Contract file schema
+  interface.schema.json                              # Interface file schema
+components/
+  sha256-content-prover/                             # SHA-256 content verification component
+validate.js                                          # Schema + semantic validation script
 ```
 
 Each contract file is named by its lowercase address. The `chainId` and `address` fields inside make it self-contained and portable. Interface files provide reusable metadata via the `includes` mechanism.
+
+## Validation
+
+Install dependencies and run the validation script:
+
+```bash
+npm install
+npm run validate
+```
+
+This validates all contract files against `schema/contract-metadata.schema.json` and all interface files against `schema/interface.schema.json`. It also runs semantic checks (group references, related function references, filename-address matching).
+
+You can validate selectively:
+
+```bash
+npm run validate:contracts    # Contract files only
+npm run validate:interfaces   # Interface files only
+```
 
 ## Contributing
 
@@ -339,12 +399,12 @@ To add metadata for a contract:
 2. Follow the schema at `schema/contract-metadata.schema.json`
 3. Include at minimum: `schemaVersion`, `chainId`, `address`, and `contract.title`
 4. Add function metadata for the most important user-facing functions first
-5. Validate your file against the schema
+5. Run `npm run validate` to check your file against the schema
 
 ## Roadmap
 
 - [ ] EIP proposal for onchain metadata resolution
 - [ ] ENS-based resolution (metadata URL stored as ENS text record)
 - [ ] Registry contract for onchain metadata registration
-- [ ] Validation tooling and CI checks
+- [ ] CI checks (GitHub Actions for validation on PR)
 - [ ] Localization support (multiple locales per contract)
