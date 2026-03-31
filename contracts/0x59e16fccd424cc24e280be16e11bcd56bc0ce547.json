@@ -132,7 +132,7 @@
     "register": {
       "title": "Register",
       "description": "Complete a name registration — the second step after commit(). Submit the same registration details used to generate the commitment, along with ETH payment. The contract verifies the commitment, registers the name, optionally sets resolver and records, and refunds excess ETH.",
-      "intent": "Register {registration}.eth",
+      "intent": "Register a .eth name",
       "group": "registration",
       "warning": "Sends ETH. Ensure you committed at least 60 seconds ago and that the commitment has not expired (24 hour window).",
       "params": {

@@ -55,6 +55,9 @@
     "balanceOf": {
       "title": "Balance",
       "description": "Check the WETH balance of any address.",
+      "params": {
+        "_0": { "label": "holder", "inputHint": "ens-resolve" }
+      },
       "returns": { "_0": { "displayHint": "eth" } },
       "examples": [
         {
