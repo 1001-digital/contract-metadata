@@ -30,6 +30,12 @@
         "body": "ENS separates concerns across multiple contracts. The ENS Registry maps names to owners and resolvers. The Base Registrar is the ERC-721 NFT contract that tracks .eth name ownership and expiry. This Controller is the user-facing entry point that orchestrates registration: it handles pricing, commit-reveal, and can atomically set a resolver and records (addresses, text records, content hashes) during registration. Resolvers are separate contracts that store the actual records a name points to."
       }
     ],
+    "risks": [
+      "Names expire — if not renewed, names become available for re-registration after a 90-day grace period",
+      "Commit-reveal timing — commitments expire after 24 hours and must wait at least 60 seconds before reveal",
+      "ETH price exposure — registration fees are priced in USD but paid in ETH at current exchange rate",
+      "Expired name premiums — recently expired names carry a decaying premium that can be very high initially"
+    ],
     "category": "identity",
     "tags": ["ens", "identity", "naming", "dns", "infrastructure"],
     "links": [

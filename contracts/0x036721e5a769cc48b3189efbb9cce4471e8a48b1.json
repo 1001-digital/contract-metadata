@@ -27,6 +27,11 @@
         "body": "Unlike most NFT projects that store images on IPFS or centralized servers, every Checks Original is rendered as SVG directly from the smart contract. The artwork, its colors, and its metadata are all computed and stored onchain with no external dependencies. Editions can be migrated to Originals at any time — migration burns the Edition token and mints an Original that retains the same token ID, removing artist control and making the work fully trustless."
       }
     ],
+    "risks": [
+      "Compositing and burning are irreversible — burned tokens are permanently destroyed",
+      "Black Check creation requires burning 4,096 original editions — significant capital at risk",
+      "Onchain SVG rendering depends on contract storage — future hard forks could theoretically affect rendering"
+    ],
     "category": "nft",
     "tags": ["nft", "generative-art", "onchain", "burn-mechanic", "svg"],
     "links": [

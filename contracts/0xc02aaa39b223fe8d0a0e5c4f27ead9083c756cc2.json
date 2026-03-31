@@ -13,6 +13,11 @@
     "shortDescription": "Wraps native ETH into an ERC-20 token.",
     "description": "The canonical WETH contract used across DeFi. Allows native ETH to be used wherever ERC-20 tokens are required. 1 WETH is always redeemable for exactly 1 ETH.",
     "origin": "Deployed 2017, standard across DeFi",
+    "risks": [
+      "No upgradeability — critical DeFi infrastructure with no ability to patch",
+      "Wrapping locks ETH in the contract — any exploit could affect all deposited ETH",
+      "No Permit (EIP-2612) support — predates gasless approval standard"
+    ],
     "category": "token",
     "tags": ["token", "weth", "defi-primitive"],
     "links": [

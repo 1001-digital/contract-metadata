@@ -26,6 +26,12 @@
         "body": "The world's biggest artists, auction houses and brands agree we live in a digitized world. This is a new medium, like past art forms, and cryptography and blockchain technologies enable collecting, owning, and trading items on a global, borderless market.\n\nCryptoPunks were the seminal art project of its kind, inspiring various technological standards and spearheading an entire movement. The Punks are now exhibited in prestigious museums like Centre Pompidou and LACMA, celebrated by icons from fashion, music, art and technology.\n\nThe CryptoPunksMarket smart contract has processed billions in trading volume. Thousands of accounts have interacted with it, over 6000 have owned punks, and the most traded punk has changed hands 51 times — all handled by code under 200 lines long.\n\n2.5+ billion dollars in secure trading. 200 lines of code. A global community with no middlemen or rent seekers."
       }
     ],
+    "risks": [
+      "No upgradeability — contract bugs are permanent and cannot be patched",
+      "Predates ERC-721 — does not implement the standard NFT interface, requiring wrapper contracts for compatibility with modern marketplaces",
+      "No royalty enforcement — the built-in marketplace has no creator fee mechanism",
+      "ETH withdrawal pattern — sale proceeds and outbid returns must be manually withdrawn via pendingWithdrawals"
+    ],
     "category": "nft",
     "tags": ["nft", "collectible", "pfp", "pixel-art", "og"],
     "links": [
