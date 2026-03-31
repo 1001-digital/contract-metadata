@@ -1,0 +1,16 @@
+{
+  "name": "contract-metadata",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Human-readable context for smart contracts.",
+  "scripts": {
+    "validate": "node validate.js",
+    "validate:contracts": "node validate.js --contracts",
+    "validate:interfaces": "node validate.js --interfaces"
+  },
+  "devDependencies": {
+    "ajv": "^8.17.0",
+    "ajv-formats": "^3.0.1"
+  }
+}
