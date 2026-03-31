@@ -81,6 +81,21 @@
       "related": ["approve", "allowance"]
     }
   },
+  "messages": {
+    "Permit": {
+      "title": "Token Permit (EIP-2612)",
+      "description": "Approve a spender to transfer your tokens via an off-chain signature, avoiding a separate approve transaction.",
+      "warning": "This grants token spending permission. Verify the spender address and amount carefully. Phishing sites commonly request Permit signatures to drain wallets.",
+      "intent": "Permit {spender} to spend {value} of your tokens until {deadline}",
+      "fields": {
+        "owner": { "label": "owner", "description": "The token holder granting the approval", "displayHint": "address" },
+        "spender": { "label": "spender", "description": "The address being approved to spend tokens", "displayHint": "address" },
+        "value": { "label": "amount", "description": "Maximum amount the spender can transfer" },
+        "nonce": { "label": "nonce", "description": "Sequential nonce preventing signature replay" },
+        "deadline": { "label": "deadline", "description": "Unix timestamp after which the permit expires", "displayHint": "timestamp" }
+      }
+    }
+  },
   "events": {
     "Transfer": {
       "description": "Emitted when tokens are transferred.",

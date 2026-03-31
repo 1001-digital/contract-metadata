@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/1001-digital/contract-metadata/schema/interface.schema.json",
+  "title": "Contract Metadata Interface",
+  "description": "Reusable metadata for standard interfaces (ERC-20, ERC-721, etc.). Provides groups, functions, events, and messages that can be included by contract metadata files via the includes field.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "groups": {
+      "type": "object",
+      "description": "Named groups for organizing functions in the UI.",
+      "additionalProperties": {
+        "$ref": "contract-metadata.schema.json#/$defs/Group"
+      }
+    },
+    "functions": {
+      "type": "object",
+      "description": "Per-function metadata, keyed by ABI function name.",
+      "additionalProperties": {
+        "$ref": "contract-metadata.schema.json#/$defs/FunctionMeta"
+      }
+    },
+    "events": {
+      "type": "object",
+      "description": "Per-event metadata, keyed by ABI event name.",
+      "additionalProperties": {
+        "$ref": "contract-metadata.schema.json#/$defs/EventMeta"
+      }
+    },
+    "errors": {
+      "type": "object",
+      "description": "Per-error metadata, keyed by ABI error name.",
+      "additionalProperties": {
+        "$ref": "contract-metadata.schema.json#/$defs/ErrorMeta"
+      }
+    },
+    "messages": {
+      "type": "object",
+      "description": "EIP-712 typed message metadata, keyed by primary type name.",
+      "additionalProperties": {
+        "$ref": "contract-metadata.schema.json#/$defs/MessageMeta"
+      }
+    }
+  }
+}
