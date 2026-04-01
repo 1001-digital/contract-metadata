@@ -472,6 +472,9 @@
         },
         "validation": {
           "$ref": "#/$defs/ValidationRule"
+        },
+        "preview": {
+          "$ref": "#/$defs/ParamPreview"
         }
       }
     },
@@ -479,7 +482,7 @@
       "oneOf": [
         {
           "type": "string",
-          "enum": ["eth", "gwei", "timestamp", "address", "boolean", "blocknumber", "duration", "bytes32-utf8", "nft", "percentage", "basis-points", "token-amount", "date", "datetime", "hidden"],
+          "enum": ["eth", "gwei", "timestamp", "address", "boolean", "blocknumber", "duration", "bytes32-utf8", "token-id", "percentage", "basis-points", "token-amount", "date", "datetime", "hidden"],
           "description": "Semantic type. Tells consumers what a value represents and how to render it in both read and write contexts."
         },
         {
@@ -622,6 +625,17 @@
         "message": {
           "type": "string",
           "description": "Custom validation error message."
+        }
+      }
+    },
+    "ParamPreview": {
+      "type": "object",
+      "description": "Visual preview shown as the user fills in a parameter value.",
+      "additionalProperties": false,
+      "properties": {
+        "image": {
+          "type": "string",
+          "description": "URI template that resolves to an image for the current parameter value. Supports CAIP-19/CAIP-29, IPFS, and HTTPS URIs. Use {paramName} for interpolation."
         }
       }
     },

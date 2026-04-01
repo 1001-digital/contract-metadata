@@ -32,8 +32,8 @@
       "Black Check creation requires burning 4,096 original editions — significant capital at risk",
       "Onchain SVG rendering depends on contract storage — future hard forks could theoretically affect rendering"
     ],
-    "category": "nft",
-    "tags": ["nft", "generative-art", "onchain", "burn-mechanic", "svg"],
+    "category": "token-id",
+    "tags": ["token-id", "generative-art", "onchain", "burn-mechanic", "svg"],
     "links": [
       { "label": "Etherscan", "url": "https://etherscan.io/address/0x036721e5A769Cc48B3189EFbb9ccE4471E8A48B1" },
       { "label": "Website", "url": "https://checks.art" },
@@ -75,7 +75,7 @@
         "tokenId": {
           "label": "token ID",
           "description": "The Check token ID (matches the original edition number)",
-          "type": "nft"
+          "type": "token-id"
         }
       },
       "examples": [
@@ -89,7 +89,7 @@
       "stateMutability": "view",
       "group": "art",
       "params": {
-        "tokenId": { "label": "token ID", "type": "nft" }
+        "tokenId": { "label": "token ID", "type": "token-id" }
       },
       "related": ["colors", "tokenURI"]
     },
@@ -99,7 +99,7 @@
       "stateMutability": "view",
       "group": "art",
       "params": {
-        "tokenId": { "label": "token ID", "type": "nft" }
+        "tokenId": { "label": "token ID", "type": "token-id" }
       },
       "related": ["svg", "getCheck"]
     },
@@ -109,7 +109,7 @@
       "stateMutability": "view",
       "group": "art",
       "params": {
-        "tokenId": { "label": "token ID", "type": "nft" }
+        "tokenId": { "label": "token ID", "type": "token-id" }
       },
       "related": ["svg"]
     },
@@ -123,12 +123,12 @@
         "tokenId": {
           "label": "keep token ID",
           "description": "The token ID to keep (carries forward)",
-          "type": "nft"
+          "type": "token-id"
         },
         "burnId": {
           "label": "burn token ID",
           "description": "The token ID to burn",
-          "type": "nft"
+          "type": "token-id"
         },
         "swap": {
           "label": "swap visual",
@@ -161,8 +161,8 @@
       "stateMutability": "view",
       "group": "compositing",
       "params": {
-        "tokenId": { "label": "keep token ID", "type": "nft" },
-        "burnId": { "label": "burn token ID", "type": "nft" }
+        "tokenId": { "label": "keep token ID", "type": "token-id" },
+        "burnId": { "label": "burn token ID", "type": "token-id" }
       },
       "related": ["simulateCompositeSVG", "composite"]
     },
@@ -172,8 +172,8 @@
       "stateMutability": "view",
       "group": "compositing",
       "params": {
-        "tokenId": { "label": "keep token ID", "type": "nft" },
-        "burnId": { "label": "burn token ID", "type": "nft" }
+        "tokenId": { "label": "keep token ID", "type": "token-id" },
+        "burnId": { "label": "burn token ID", "type": "token-id" }
       },
       "related": ["simulateComposite", "composite"]
     },
@@ -201,12 +201,12 @@
         "tokenId": {
           "label": "receiving token ID",
           "description": "The token that receives the visual",
-          "type": "nft"
+          "type": "token-id"
         },
         "burnId": {
           "label": "sacrificed token ID",
           "description": "The token to burn (its visual transfers to the receiver)",
-          "type": "nft"
+          "type": "token-id"
         }
       },
       "related": ["inItForTheArts"]
@@ -229,7 +229,7 @@
       "group": "compositing",
       "warning": "Irreversible — the token is permanently destroyed.",
       "params": {
-        "tokenId": { "label": "token ID", "type": "nft" }
+        "tokenId": { "label": "token ID", "type": "token-id" }
       }
     },
     "resolveEpochIfNecessary": {
@@ -273,22 +273,22 @@
     "Composite": {
       "description": "Emitted when two Checks are composited, burning one and producing a piece with fewer checks (e.g. 80 → 40).",
       "params": {
-        "tokenId": { "label": "kept token ID", "type": "nft" },
-        "burnId": { "label": "burned token ID", "type": "nft" },
+        "tokenId": { "label": "kept token ID", "type": "token-id" },
+        "burnId": { "label": "burned token ID", "type": "token-id" },
         "divisor": { "label": "new divisor" }
       }
     },
     "Sacrifice": {
       "description": "Emitted when a Check is sacrificed to transfer its visual identity to another.",
       "params": {
-        "burnId": { "label": "sacrificed token ID", "type": "nft" },
-        "tokenId": { "label": "receiving token ID", "type": "nft" }
+        "burnId": { "label": "sacrificed token ID", "type": "token-id" },
+        "tokenId": { "label": "receiving token ID", "type": "token-id" }
       }
     },
     "Infinity": {
       "description": "Emitted when 64 single-check tokens are burned to create a Black Check.",
       "params": {
-        "blackCheckId": { "label": "Black Check token ID", "type": "nft" },
+        "blackCheckId": { "label": "Black Check token ID", "type": "token-id" },
         "tokenIds": { "label": "burned token IDs" }
       }
     },
@@ -302,7 +302,7 @@
     "MetadataUpdate": {
       "description": "Emitted when a token's metadata changes (e.g. after compositing).",
       "params": {
-        "_tokenId": { "label": "token ID", "type": "nft" }
+        "_tokenId": { "label": "token ID", "type": "token-id" }
       }
     }
   }

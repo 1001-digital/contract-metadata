@@ -32,8 +32,8 @@
       "No royalty enforcement — the built-in marketplace has no creator fee mechanism",
       "ETH withdrawal pattern — sale proceeds and outbid returns must be manually withdrawn via pendingWithdrawals"
     ],
-    "category": "nft",
-    "tags": ["nft", "collectible", "pfp", "pixel-art", "og"],
+    "category": "token-id",
+    "tags": ["token-id", "collectible", "pfp", "pixel-art", "og"],
     "links": [
       { "label": "Etherscan", "url": "https://etherscan.io/address/0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB" },
       { "label": "Larva Labs", "url": "https://larvalabs.com/cryptopunks" }
@@ -58,7 +58,7 @@
         "_0": {
           "label": "punk index",
           "description": "The punk ID (0–9999)",
-          "type": "nft",
+          "type": "token-id",
           "validation": { "min": "0", "max": "9999" }
         }
       },
@@ -86,7 +86,7 @@
         "punkIndex": {
           "label": "punk index",
           "description": "The punk ID to transfer (0–9999)",
-          "type": "nft",
+          "type": "token-id",
           "validation": { "min": "0", "max": "9999" }
         }
       },
@@ -100,7 +100,7 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "type": "nft",
+          "type": "token-id",
           "validation": { "min": "0", "max": "9999" }
         },
         "minSalePriceInWei": {
@@ -118,7 +118,7 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "type": "nft",
+          "type": "token-id",
           "validation": { "min": "0", "max": "9999" }
         },
         "minSalePriceInWei": { "label": "minimum price", "type": "eth" },
@@ -139,7 +139,7 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "type": "nft",
+          "type": "token-id",
           "validation": { "min": "0", "max": "9999" }
         }
       },
@@ -152,7 +152,7 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "type": "nft",
+          "type": "token-id",
           "validation": { "min": "0", "max": "9999" }
         }
       },
@@ -166,7 +166,7 @@
       "params": {
         "_0": {
           "label": "punk index",
-          "type": "nft",
+          "type": "token-id",
           "validation": { "min": "0", "max": "9999" }
         }
       }
@@ -180,7 +180,7 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "type": "nft",
+          "type": "token-id",
           "validation": { "min": "0", "max": "9999" }
         }
       },
@@ -193,7 +193,7 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "type": "nft",
+          "type": "token-id",
           "validation": { "min": "0", "max": "9999" }
         }
       },
@@ -206,7 +206,7 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "type": "nft",
+          "type": "token-id",
           "validation": { "min": "0", "max": "9999" }
         },
         "minPrice": {
@@ -225,7 +225,7 @@
       "params": {
         "_0": {
           "label": "punk index",
-          "type": "nft",
+          "type": "token-id",
           "validation": { "min": "0", "max": "9999" }
         }
       }
@@ -302,7 +302,7 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "type": "nft",
+          "type": "token-id",
           "validation": { "min": "0", "max": "9999" }
         }
       }
@@ -314,13 +314,13 @@
       "params": {
         "from": { "label": "from" },
         "to": { "label": "to" },
-        "punkIndex": { "label": "punk index", "type": "nft" }
+        "punkIndex": { "label": "punk index", "type": "token-id" }
       }
     },
     "PunkOffered": {
       "description": "Emitted when a punk is listed for sale.",
       "params": {
-        "punkIndex": { "label": "punk index", "type": "nft" },
+        "punkIndex": { "label": "punk index", "type": "token-id" },
         "minValue": { "label": "minimum price", "type": "eth" },
         "toAddress": { "label": "exclusive buyer" }
       }
@@ -328,7 +328,7 @@
     "PunkBidEntered": {
       "description": "Emitted when a bid is placed on a punk.",
       "params": {
-        "punkIndex": { "label": "punk index", "type": "nft" },
+        "punkIndex": { "label": "punk index", "type": "token-id" },
         "value": { "label": "bid amount", "type": "eth" },
         "fromAddress": { "label": "bidder" }
       }
@@ -336,7 +336,7 @@
     "PunkBidWithdrawn": {
       "description": "Emitted when a bid is withdrawn.",
       "params": {
-        "punkIndex": { "label": "punk index", "type": "nft" },
+        "punkIndex": { "label": "punk index", "type": "token-id" },
         "value": { "label": "bid amount", "type": "eth" },
         "fromAddress": { "label": "bidder" }
       }
@@ -344,7 +344,7 @@
     "PunkBought": {
       "description": "Emitted when a punk is sold.",
       "params": {
-        "punkIndex": { "label": "punk index", "type": "nft" },
+        "punkIndex": { "label": "punk index", "type": "token-id" },
         "value": { "label": "sale price", "type": "eth" },
         "fromAddress": { "label": "seller" },
         "toAddress": { "label": "buyer" }
@@ -353,14 +353,14 @@
     "PunkNoLongerForSale": {
       "description": "Emitted when a punk is delisted from the marketplace.",
       "params": {
-        "punkIndex": { "label": "punk index", "type": "nft" }
+        "punkIndex": { "label": "punk index", "type": "token-id" }
       }
     },
     "Assign": {
       "description": "Emitted during the initial claim phase when a punk was assigned to an address.",
       "params": {
         "to": { "label": "claimer" },
-        "punkIndex": { "label": "punk index", "type": "nft" }
+        "punkIndex": { "label": "punk index", "type": "token-id" }
       }
     },
     "Transfer": {

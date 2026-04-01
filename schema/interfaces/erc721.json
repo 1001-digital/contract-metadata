@@ -36,7 +36,7 @@
       "stateMutability": "view",
       "group": "erc721",
       "params": {
-        "tokenId": { "label": "token ID", "type": "nft" }
+        "tokenId": { "label": "token ID", "type": "token-id" }
       },
       "returns": {
         "_0": { "label": "owner", "type": "address" }
@@ -48,7 +48,7 @@
       "stateMutability": "view",
       "group": "erc721",
       "params": {
-        "tokenId": { "label": "token ID", "type": "nft" }
+        "tokenId": { "label": "token ID", "type": "token-id" }
       }
     },
     "approve": {
@@ -58,7 +58,7 @@
       "intent": "Approve {to} to transfer token #{tokenId}",
       "params": {
         "to": { "label": "operator", "type": "address" },
-        "tokenId": { "label": "token ID", "type": "nft" }
+        "tokenId": { "label": "token ID", "type": "token-id" }
       }
     },
     "getApproved": {
@@ -67,7 +67,7 @@
       "stateMutability": "view",
       "group": "erc721",
       "params": {
-        "tokenId": { "label": "token ID", "type": "nft" }
+        "tokenId": { "label": "token ID", "type": "token-id" }
       },
       "returns": {
         "_0": { "label": "approved operator", "type": "address" }
@@ -101,7 +101,7 @@
       "params": {
         "from": { "label": "from", "type": "address" },
         "to": { "label": "to", "type": "address" },
-        "tokenId": { "label": "token ID", "type": "nft" }
+        "tokenId": { "label": "token ID", "type": "token-id" }
       }
     },
     "safeTransferFrom": {
@@ -112,7 +112,7 @@
       "params": {
         "from": { "label": "from", "type": "address" },
         "to": { "label": "to", "type": "address" },
-        "tokenId": { "label": "token ID", "type": "nft" }
+        "tokenId": { "label": "token ID", "type": "token-id" }
       }
     }
   },
@@ -122,7 +122,7 @@
       "params": {
         "from": { "label": "from" },
         "to": { "label": "to" },
-        "tokenId": { "label": "token ID", "type": "nft" }
+        "tokenId": { "label": "token ID", "type": "token-id" }
       }
     },
     "Approval": {
@@ -130,7 +130,7 @@
       "params": {
         "owner": { "label": "owner" },
         "approved": { "label": "approved operator" },
-        "tokenId": { "label": "token ID", "type": "nft" }
+        "tokenId": { "label": "token ID", "type": "token-id" }
       }
     },
     "ApprovalForAll": {
