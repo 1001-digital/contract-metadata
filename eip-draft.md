@@ -375,9 +375,8 @@ Publishers MAY use custom extension objects anywhere in a metadata file. Extensi
       "params": {
         "tokenId": { "label": "Check", "type": "token-id" }
       },
-      "_checks_colors": {
-        "about": "https://github.com/1001-digital/checks-colors",
-        "src": "@1001-digital/checks-colors",
+      "_component": {
+        "type": "color-map",
         "columns": "8"
       }
     }
@@ -387,7 +386,7 @@ Publishers MAY use custom extension objects anywhere in a metadata file. Extensi
 
 **Naming rules:**
 
-- The extension name MUST begin with `_` followed by a letter (e.g. `_myapp`, `_checks_colors`).
+- The extension name MUST begin with `_` followed by a letter (e.g. `_myapp`, `_component`).
 - Extension names and their member keys MUST NOT contain `.` characters.
 - Extensions SHOULD be named after a company, product, or feature to make their purpose clear.
 
