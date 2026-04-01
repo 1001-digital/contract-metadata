@@ -47,10 +47,10 @@ A metadata file describes a single deployed contract:
 
 | Field       | Type     | Required | Description                                                              |
 | ----------- | -------- | -------- | ------------------------------------------------------------------------ |
-| `$schema`   | `string` | OPTIONAL | URI pointing to the contract-metadata JSON Schema                        |
+| `$schema`   | `string` | REQUIRED | URI pointing to the contract-metadata JSON Schema                        |
 | `chainId`   | `number` | REQUIRED | The chain ID of the network where the contract is deployed               |
 | `address`   | `string` | REQUIRED | The contract address (lowercase, checksummed addresses MUST be accepted) |
-| `includes`  | `array`  | OPTIONAL | Interface identifiers to include (e.g. `["erc721"]`)                     |
+| `includes`  | `array`  | OPTIONAL | Interface identifiers to include (e.g. `["interface:erc721"]`)           |
 | `meta`      | `object` | OPTIONAL | Document housekeeping (authors, version, lastUpdated, locale, signature) |
 | `contract`  | `object` | OPTIONAL | Contract-level context (title, description, about, links, etc.)          |
 | `groups`    | `object` | OPTIONAL | Named groups for organizing functions                                    |
@@ -309,7 +309,7 @@ Common interface metadata (ERC-20, ERC-721, etc.) can be defined once and includ
   "$schema": "https://1001-digital.github.io/contract-metadata/v1/schema.json",
   "chainId": 1,
   "address": "0x036721e5a769cc48b3189efbb9cce4471e8a48b1",
-  "contract": { "title": "Checks Originals" },
+  "contract": { "name": "Checks Originals" },
   "functions": {
     "mint": { "...": "..." },
     "composite": { "...": "..." }
