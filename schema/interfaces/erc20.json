@@ -33,7 +33,7 @@
       "stateMutability": "view",
       "group": "erc20",
       "params": {
-        "_0": { "label": "holder", "inputHint": "ens-resolve" }
+        "_0": { "label": "holder", "type": "address" }
       }
     },
     "allowance": {
@@ -42,8 +42,8 @@
       "stateMutability": "view",
       "group": "erc20",
       "params": {
-        "_0": { "label": "owner", "inputHint": "ens-resolve" },
-        "_1": { "label": "spender", "inputHint": "ens-resolve" }
+        "_0": { "label": "owner", "type": "address" },
+        "_1": { "label": "spender", "type": "address" }
       }
     },
     "approve": {
@@ -53,7 +53,7 @@
       "intent": "Approve {_0} to spend {_1} tokens",
       "warning": "Approving unlimited amounts is common but carries risk if the spender contract is compromised.",
       "params": {
-        "_0": { "label": "spender", "inputHint": "ens-resolve" },
+        "_0": { "label": "spender", "type": "address" },
         "_1": { "label": "amount" }
       },
       "related": ["allowance", "transferFrom"]
@@ -64,7 +64,7 @@
       "group": "erc20",
       "intent": "Transfer {_1} tokens to {_0}",
       "params": {
-        "_0": { "label": "recipient", "inputHint": "ens-resolve" },
+        "_0": { "label": "recipient", "type": "address" },
         "_1": { "label": "amount" }
       },
       "related": ["balanceOf"]
@@ -74,8 +74,8 @@
       "description": "Transfer tokens from one address to another, using a previously set allowance.",
       "group": "erc20",
       "params": {
-        "_0": { "label": "from", "inputHint": "ens-resolve" },
-        "_1": { "label": "to", "inputHint": "ens-resolve" },
+        "_0": { "label": "from", "type": "address" },
+        "_1": { "label": "to", "type": "address" },
         "_2": { "label": "amount" }
       },
       "related": ["approve", "allowance"]
@@ -88,11 +88,11 @@
       "warning": "This grants token spending permission. Verify the spender address and amount carefully. Phishing sites commonly request Permit signatures to drain wallets.",
       "intent": "Permit {spender} to spend {value} of your tokens until {deadline}",
       "fields": {
-        "owner": { "label": "owner", "description": "The token holder granting the approval", "displayHint": "address" },
-        "spender": { "label": "spender", "description": "The address being approved to spend tokens", "displayHint": "address" },
+        "owner": { "label": "owner", "description": "The token holder granting the approval", "type": "address" },
+        "spender": { "label": "spender", "description": "The address being approved to spend tokens", "type": "address" },
         "value": { "label": "amount", "description": "Maximum amount the spender can transfer" },
         "nonce": { "label": "nonce", "description": "Sequential nonce preventing signature replay" },
-        "deadline": { "label": "deadline", "description": "Unix timestamp after which the permit expires", "displayHint": "timestamp" }
+        "deadline": { "label": "deadline", "description": "Unix timestamp after which the permit expires", "type": "timestamp" }
       }
     }
   },

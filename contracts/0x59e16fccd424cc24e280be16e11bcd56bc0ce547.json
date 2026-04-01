@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "$schema": "https://1001-digital.github.io/contract-metadata/v1/schema.json",
   "chainId": 1,
   "address": "0x59e16fccd424cc24e280be16e11bcd56bc0ce547",
   "meta": {
@@ -8,7 +8,7 @@
     "locale": "en"
   },
   "contract": {
-    "title": "ENS ETH Registrar Controller",
+    "name": "ENS ETH Registrar Controller",
     "shortDescription": "Register, renew, and manage .eth names on the Ethereum Name Service.",
     "description": "The user-facing controller for .eth name registrations on ENS. Implements a commit-reveal scheme to prevent front-running, enforces minimum registration duration (28 days), and collects ETH payment based on name length and duration. Names are priced in USD and converted to ETH via Chainlink. Recently expired names carry a temporary premium that decays exponentially over ~21 days.",
     "origin": "Deployed September 2025 by ENS Labs (v1.6.0). Part of the ENS protocol, the decentralized naming system for Ethereum. Succeeds earlier controllers at 0x253553366Da8546fC250F225fe3d25d0C782303b (v3) and 0x283Af0B28c62C092C9727F1Ee09c02CA627EB7F5 (v2).",
@@ -43,10 +43,10 @@
       { "label": "ENS", "url": "https://ens.domains" },
       { "label": "Documentation", "url": "https://docs.ens.domains" },
       { "label": "ENS App", "url": "https://app.ens.domains" }
-    ]
-  },
-  "presentation": {
-    "primaryColor": "#5284FF"
+    ],
+    "theme": {
+      "accent": "#5284FF"
+    }
   },
   "groups": {
     "registration": { "label": "Registration", "order": 1 },
@@ -84,7 +84,7 @@
         "duration": {
           "label": "duration",
           "description": "Registration duration in seconds (minimum 28 days / 2419200 seconds)",
-          "displayHint": "duration"
+          "type": "duration"
         }
       },
       "related": ["available", "register"],
@@ -157,7 +157,7 @@
         "duration": {
           "label": "duration",
           "description": "Additional time to add in seconds",
-          "displayHint": "duration"
+          "type": "duration"
         },
         "referrer": {
           "label": "referrer",
@@ -177,7 +177,7 @@
         }
       },
       "returns": {
-        "_0": { "displayHint": "timestamp" }
+        "_0": { "type": "timestamp" }
       }
     },
     "minCommitmentAge": {
@@ -185,14 +185,14 @@
       "description": "Minimum time (in seconds) that must pass between commit() and register(). Typically 60 seconds.",
       "stateMutability": "view",
       "group": "info",
-      "returns": { "_0": { "displayHint": "duration" } }
+      "returns": { "_0": { "type": "duration" } }
     },
     "maxCommitmentAge": {
       "title": "Max Commitment Age",
       "description": "Maximum time (in seconds) a commitment remains valid. After this, the commitment expires and a new one must be made. Typically 24 hours.",
       "stateMutability": "view",
       "group": "info",
-      "returns": { "_0": { "displayHint": "duration" } }
+      "returns": { "_0": { "type": "duration" } }
     },
     "withdraw": {
       "title": "Withdraw",
@@ -204,8 +204,8 @@
       "description": "Recover ERC-20 tokens accidentally sent to this contract. Only callable by the contract owner.",
       "group": "admin",
       "params": {
-        "_token": { "label": "token address", "displayHint": "address" },
-        "_to": { "label": "recipient", "inputHint": "ens-resolve" },
+        "_token": { "label": "token address", "type": "address" },
+        "_to": { "label": "recipient", "type": "address" },
         "_amount": { "label": "amount" }
       }
     },
@@ -214,7 +214,7 @@
       "description": "The address that controls admin functions (withdraw, recover funds).",
       "stateMutability": "view",
       "group": "admin",
-      "returns": { "_0": { "displayHint": "address" } }
+      "returns": { "_0": { "type": "address" } }
     },
     "supportsInterface": {
       "title": "Supports Interface",
@@ -232,10 +232,10 @@
       "params": {
         "label": { "label": "name" },
         "labelhash": { "label": "labelhash" },
-        "owner": { "label": "owner", "displayHint": "address" },
-        "baseCost": { "label": "base cost", "displayHint": "eth" },
-        "premium": { "label": "premium", "displayHint": "eth" },
-        "expires": { "label": "expires", "displayHint": "timestamp" },
+        "owner": { "label": "owner", "type": "address" },
+        "baseCost": { "label": "base cost", "type": "eth" },
+        "premium": { "label": "premium", "type": "eth" },
+        "expires": { "label": "expires", "type": "timestamp" },
         "referrer": { "label": "referrer" }
       }
     },
@@ -244,8 +244,8 @@
       "params": {
         "label": { "label": "name" },
         "labelhash": { "label": "labelhash" },
-        "cost": { "label": "cost", "displayHint": "eth" },
-        "expires": { "label": "new expiry", "displayHint": "timestamp" },
+        "cost": { "label": "cost", "type": "eth" },
+        "expires": { "label": "new expiry", "type": "timestamp" },
         "referrer": { "label": "referrer" }
       }
     }

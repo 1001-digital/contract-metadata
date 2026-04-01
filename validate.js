@@ -13,6 +13,11 @@ ajv.addSchema(contractSchema, 'contract-metadata.schema.json')
 const validateContract = ajv.compile(contractSchema)
 const validateInterface = ajv.compile(interfaceSchema)
 
+// Valid key formats for functions/events/errors
+const SELECTOR_4BYTE = /^0x[0-9a-f]{8}$/
+const SELECTOR_32BYTE = /^0x[0-9a-f]{64}$/
+const SIGNATURE_RE = /^[a-zA-Z_][a-zA-Z0-9_]*\(.*\)$/
+
 const args = process.argv.slice(2)
 const runContracts = args.length === 0 || args.includes('--contracts')
 const runInterfaces = args.length === 0 || args.includes('--interfaces')
@@ -74,23 +79,64 @@ if (hasErrors) {
   console.log('\n\x1b[32mAll files valid.\x1b[0m')
 }
 
+function extractName(key) {
+  if (SIGNATURE_RE.test(key)) return key.slice(0, key.indexOf('('))
+  return key
+}
+
+function functionKeysMatch(ref, keys) {
+  // Direct match
+  if (keys.has(ref)) return true
+  // ref is a bare name — check if any signature key starts with that name
+  if (!SELECTOR_4BYTE.test(ref) && !SIGNATURE_RE.test(ref)) {
+    for (const k of keys) {
+      if (extractName(k) === ref) return true
+    }
+  }
+  return false
+}
+
 function semanticChecks(data, path) {
   const warnings = []
   const groups = data.groups ? Object.keys(data.groups) : []
 
-  // Check function group references
+  // Check function key formats and group/related references
   if (data.functions) {
-    for (const [name, fn] of Object.entries(data.functions)) {
+    const fnKeys = new Set(Object.keys(data.functions))
+    for (const [key, fn] of Object.entries(data.functions)) {
+      // Validate key format
+      if (!SELECTOR_4BYTE.test(key) && !SIGNATURE_RE.test(key) && /[^a-zA-Z0-9_]/.test(key)) {
+        warnings.push(`functions key "${key}" is not a valid name, signature, or 4-byte selector`)
+      }
+
       if (fn.group && groups.length > 0 && !groups.includes(fn.group)) {
-        warnings.push(`functions.${name}.group "${fn.group}" not found in groups`)
+        warnings.push(`functions.${key}.group "${fn.group}" not found in groups`)
       }
       // Check related references
       if (fn.related) {
         for (const ref of fn.related) {
-          if (!data.functions[ref]) {
-            warnings.push(`functions.${name}.related references unknown function "${ref}"`)
+          if (!functionKeysMatch(ref, fnKeys)) {
+            warnings.push(`functions.${key}.related references unknown function "${ref}"`)
           }
         }
+      }
+    }
+  }
+
+  // Check event key formats
+  if (data.events) {
+    for (const key of Object.keys(data.events)) {
+      if (!SELECTOR_32BYTE.test(key) && !SIGNATURE_RE.test(key) && /[^a-zA-Z0-9_]/.test(key)) {
+        warnings.push(`events key "${key}" is not a valid name, signature, or 32-byte topic hash`)
+      }
+    }
+  }
+
+  // Check error key formats
+  if (data.errors) {
+    for (const key of Object.keys(data.errors)) {
+      if (!SELECTOR_4BYTE.test(key) && !SIGNATURE_RE.test(key) && /[^a-zA-Z0-9_]/.test(key)) {
+        warnings.push(`errors key "${key}" is not a valid name, signature, or 4-byte selector`)
       }
     }
   }

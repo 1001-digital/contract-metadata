@@ -27,7 +27,7 @@
       "stateMutability": "view",
       "group": "erc721",
       "params": {
-        "owner": { "label": "holder", "inputHint": "ens-resolve" }
+        "owner": { "label": "holder", "type": "address" }
       }
     },
     "ownerOf": {
@@ -36,10 +36,10 @@
       "stateMutability": "view",
       "group": "erc721",
       "params": {
-        "tokenId": { "label": "token ID", "displayHint": "nft" }
+        "tokenId": { "label": "token ID", "type": "nft" }
       },
       "returns": {
-        "_0": { "label": "owner", "displayHint": "address" }
+        "_0": { "label": "owner", "type": "address" }
       }
     },
     "tokenURI": {
@@ -48,7 +48,7 @@
       "stateMutability": "view",
       "group": "erc721",
       "params": {
-        "tokenId": { "label": "token ID", "displayHint": "nft" }
+        "tokenId": { "label": "token ID", "type": "nft" }
       }
     },
     "approve": {
@@ -57,8 +57,8 @@
       "group": "erc721",
       "intent": "Approve {to} to transfer token #{tokenId}",
       "params": {
-        "to": { "label": "operator", "inputHint": "ens-resolve" },
-        "tokenId": { "label": "token ID", "displayHint": "nft" }
+        "to": { "label": "operator", "type": "address" },
+        "tokenId": { "label": "token ID", "type": "nft" }
       }
     },
     "getApproved": {
@@ -67,10 +67,10 @@
       "stateMutability": "view",
       "group": "erc721",
       "params": {
-        "tokenId": { "label": "token ID", "displayHint": "nft" }
+        "tokenId": { "label": "token ID", "type": "nft" }
       },
       "returns": {
-        "_0": { "label": "approved operator", "displayHint": "address" }
+        "_0": { "label": "approved operator", "type": "address" }
       }
     },
     "setApprovalForAll": {
@@ -79,7 +79,7 @@
       "group": "erc721",
       "warning": "Grants full control over all your tokens in this collection to this operator.",
       "params": {
-        "operator": { "label": "operator", "inputHint": "ens-resolve" },
+        "operator": { "label": "operator", "type": "address" },
         "approved": { "label": "approved" }
       }
     },
@@ -89,8 +89,8 @@
       "stateMutability": "view",
       "group": "erc721",
       "params": {
-        "owner": { "label": "owner", "inputHint": "ens-resolve" },
-        "operator": { "label": "operator", "inputHint": "ens-resolve" }
+        "owner": { "label": "owner", "type": "address" },
+        "operator": { "label": "operator", "type": "address" }
       }
     },
     "transferFrom": {
@@ -99,9 +99,9 @@
       "group": "erc721",
       "intent": "Transfer token #{tokenId} from {from} to {to}",
       "params": {
-        "from": { "label": "from", "inputHint": "ens-resolve" },
-        "to": { "label": "to", "inputHint": "ens-resolve" },
-        "tokenId": { "label": "token ID", "displayHint": "nft" }
+        "from": { "label": "from", "type": "address" },
+        "to": { "label": "to", "type": "address" },
+        "tokenId": { "label": "token ID", "type": "nft" }
       }
     },
     "safeTransferFrom": {
@@ -110,9 +110,9 @@
       "group": "erc721",
       "intent": "Transfer token #{tokenId} from {from} to {to}",
       "params": {
-        "from": { "label": "from", "inputHint": "ens-resolve" },
-        "to": { "label": "to", "inputHint": "ens-resolve" },
-        "tokenId": { "label": "token ID", "displayHint": "nft" }
+        "from": { "label": "from", "type": "address" },
+        "to": { "label": "to", "type": "address" },
+        "tokenId": { "label": "token ID", "type": "nft" }
       }
     }
   },
@@ -122,7 +122,7 @@
       "params": {
         "from": { "label": "from" },
         "to": { "label": "to" },
-        "tokenId": { "label": "token ID", "displayHint": "nft" }
+        "tokenId": { "label": "token ID", "type": "nft" }
       }
     },
     "Approval": {
@@ -130,7 +130,7 @@
       "params": {
         "owner": { "label": "owner" },
         "approved": { "label": "approved operator" },
-        "tokenId": { "label": "token ID", "displayHint": "nft" }
+        "tokenId": { "label": "token ID", "type": "nft" }
       }
     },
     "ApprovalForAll": {

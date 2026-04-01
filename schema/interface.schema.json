@@ -15,21 +15,21 @@
     },
     "functions": {
       "type": "object",
-      "description": "Per-function metadata, keyed by ABI function name.",
+      "description": "Per-function metadata. Keys can be a bare ABI name, a full Solidity signature for overloads, or a 4-byte selector for unverified contracts.",
       "additionalProperties": {
         "$ref": "contract-metadata.schema.json#/$defs/FunctionMeta"
       }
     },
     "events": {
       "type": "object",
-      "description": "Per-event metadata, keyed by ABI event name.",
+      "description": "Per-event metadata. Keys can be a bare ABI name, a full signature for overloads, or a 32-byte topic hash for unverified contracts.",
       "additionalProperties": {
         "$ref": "contract-metadata.schema.json#/$defs/EventMeta"
       }
     },
     "errors": {
       "type": "object",
-      "description": "Per-error metadata, keyed by ABI error name.",
+      "description": "Per-error metadata. Keys can be a bare ABI name, a full signature for overloads, or a 4-byte selector for unverified contracts.",
       "additionalProperties": {
         "$ref": "contract-metadata.schema.json#/$defs/ErrorMeta"
       }

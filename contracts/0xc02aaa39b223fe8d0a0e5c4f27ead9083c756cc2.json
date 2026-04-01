@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "$schema": "https://1001-digital.github.io/contract-metadata/v1/schema.json",
   "chainId": 1,
   "address": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2",
   "includes": ["erc20"],
@@ -9,7 +9,7 @@
     "locale": "en"
   },
   "contract": {
-    "title": "Wrapped Ether",
+    "name": "Wrapped Ether",
     "shortDescription": "Wraps native ETH into an ERC-20 token.",
     "description": "The canonical WETH contract used across DeFi. Allows native ETH to be used wherever ERC-20 tokens are required. 1 WETH is always redeemable for exactly 1 ETH.",
     "origin": "Deployed 2017, standard across DeFi",
@@ -22,10 +22,10 @@
     "tags": ["token", "weth", "defi-primitive"],
     "links": [
       { "label": "Etherscan", "url": "https://etherscan.io/address/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2" }
-    ]
-  },
-  "presentation": {
-    "primaryColor": "#c33c3c"
+    ],
+    "theme": {
+      "accent": "#c33c3c"
+    }
   },
   "groups": {
     "wrap": { "label": "Wrap / Unwrap", "order": 1 }
@@ -47,7 +47,7 @@
         "wad": {
           "label": "amount",
           "description": "Amount of WETH to unwrap (in wei)",
-          "displayHint": "eth"
+          "type": "eth"
         }
       },
       "related": ["deposit", "balanceOf"]
@@ -56,9 +56,9 @@
       "title": "Balance",
       "description": "Check the WETH balance of any address.",
       "params": {
-        "_0": { "label": "holder", "inputHint": "ens-resolve" }
+        "_0": { "label": "holder", "type": "address" }
       },
-      "returns": { "_0": { "displayHint": "eth" } },
+      "returns": { "_0": { "type": "eth" } },
       "examples": [
         {
           "label": "Check Vitalik's balance",
@@ -69,11 +69,11 @@
     "totalSupply": {
       "title": "Total Supply",
       "description": "Total amount of WETH in existence (ETH locked in the contract).",
-      "returns": { "_0": { "displayHint": "eth" } }
+      "returns": { "_0": { "type": "eth" } }
     },
     "allowance": {
       "description": "Check how much WETH an address has approved another address to spend.",
-      "returns": { "_0": { "displayHint": "eth" } }
+      "returns": { "_0": { "type": "eth" } }
     },
     "approve": {
       "description": "Approve a spender to transfer up to the given amount of your WETH.",
@@ -82,26 +82,26 @@
         "guy": {
           "label": "spender",
           "description": "Address to approve",
-          "inputHint": "ens-resolve"
+          "type": "address"
         },
-        "wad": { "label": "amount", "displayHint": "eth" }
+        "wad": { "label": "amount", "type": "eth" }
       }
     },
     "transfer": {
       "description": "Transfer WETH to another address.",
       "intent": "Transfer {wad} WETH to {dst}",
       "params": {
-        "dst": { "label": "recipient", "inputHint": "ens-resolve" },
-        "wad": { "label": "amount", "displayHint": "eth" }
+        "dst": { "label": "recipient", "type": "address" },
+        "wad": { "label": "amount", "type": "eth" }
       }
     },
     "transferFrom": {
       "description": "Transfer WETH from one address to another, using a previously set allowance.",
       "intent": "Transfer {wad} WETH from {src} to {dst}",
       "params": {
-        "src": { "label": "from", "inputHint": "ens-resolve" },
-        "dst": { "label": "to", "inputHint": "ens-resolve" },
-        "wad": { "label": "amount", "displayHint": "eth" }
+        "src": { "label": "from", "type": "address" },
+        "dst": { "label": "to", "type": "address" },
+        "wad": { "label": "amount", "type": "eth" }
       }
     },
     "name": {
@@ -119,14 +119,14 @@
       "description": "Emitted when ETH is wrapped into WETH.",
       "params": {
         "dst": { "label": "depositor" },
-        "wad": { "label": "amount", "displayHint": "eth" }
+        "wad": { "label": "amount", "type": "eth" }
       }
     },
     "Withdrawal": {
       "description": "Emitted when WETH is unwrapped back to ETH.",
       "params": {
         "src": { "label": "withdrawer" },
-        "wad": { "label": "amount", "displayHint": "eth" }
+        "wad": { "label": "amount", "type": "eth" }
       }
     },
     "Approval": {
@@ -134,7 +134,7 @@
       "params": {
         "src": { "label": "owner" },
         "guy": { "label": "spender" },
-        "wad": { "label": "amount", "displayHint": "eth" }
+        "wad": { "label": "amount", "type": "eth" }
       }
     },
     "Transfer": {
@@ -142,7 +142,7 @@
       "params": {
         "src": { "label": "from" },
         "dst": { "label": "to" },
-        "wad": { "label": "amount", "displayHint": "eth" }
+        "wad": { "label": "amount", "type": "eth" }
       }
     }
   }
