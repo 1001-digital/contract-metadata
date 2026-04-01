@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
+  "license": "CC0-1.0",
   "description": "Human-readable context for smart contracts.",
   "scripts": {
     "validate": "tsx validate.ts",

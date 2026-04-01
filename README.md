@@ -37,7 +37,7 @@ Contract Metadata is a JSON standard that layers human-readable context on top o
 ```
 contracts/       Example metadata files for deployed contracts
 schema/          JSON Schema definitions and shared interfaces
-validate.js      Schema + semantic validation script
+validate.ts      Schema + semantic validation script
 eip-draft.md     Full EIP specification
 ```
 
@@ -59,3 +59,7 @@ npm run validate
 
 - YGG ([@yougogirldoteth](https://github.com/yougogirldoteth))
 - Jalil Sebastian Wahdatehagh ([@jwahdatehagh](https://github.com/jwahdatehagh))
+
+## License
+
+Copyright and related rights waived via [CC0](./LICENSE).
