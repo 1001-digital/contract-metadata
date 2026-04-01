@@ -270,7 +270,6 @@
       "group": "info",
       "_sha256_content_prover": {
         "about": "https://github.com/1001-digital/sha256-content-prover",
-        "src": "components/sha256-content-prover",
         "sourceUrl": "https://raw.githubusercontent.com/larvalabs/cryptopunks/master/punks.png",
         "sourcePageUrl": "https://github.com/larvalabs/cryptopunks/blob/master/punks.png",
         "explanationUrl": "https://punks.vv.xyz/the-art/the-punk-image",
