@@ -5,12 +5,15 @@
   "type": "module",
   "description": "Human-readable context for smart contracts.",
   "scripts": {
-    "validate": "node validate.js",
-    "validate:contracts": "node validate.js --contracts",
-    "validate:interfaces": "node validate.js --interfaces"
+    "validate": "tsx validate.ts",
+    "validate:contracts": "tsx validate.ts --contracts",
+    "validate:interfaces": "tsx validate.ts --interfaces"
   },
   "devDependencies": {
+    "@types/node": "^25.5.0",
     "ajv": "^8.17.0",
-    "ajv-formats": "^3.0.1"
+    "ajv-formats": "^3.0.1",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.2"
   }
 }

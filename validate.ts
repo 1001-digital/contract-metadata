@@ -1,7 +1,20 @@
-import Ajv from 'ajv/dist/2020.js'
+import Ajv, { type ErrorObject } from 'ajv/dist/2020.js'
 import addFormats from 'ajv-formats'
-import { readFileSync, readdirSync } from 'fs'
+import { readFileSync, readdirSync, existsSync } from 'fs'
 import { join, basename } from 'path'
+
+interface ContractData {
+  address?: string
+  groups?: Record<string, unknown>
+  functions?: Record<string, FunctionEntry>
+  events?: Record<string, unknown>
+  errors?: Record<string, unknown>
+}
+
+interface FunctionEntry {
+  group?: string
+  related?: string[]
+}
 
 const ajv = new Ajv({ strict: false, allErrors: true })
 addFormats(ajv)
@@ -24,13 +37,13 @@ const runInterfaces = args.length === 0 || args.includes('--interfaces')
 
 let hasErrors = false
 
-if (runContracts) {
+if (runContracts && existsSync('contracts')) {
   const contractDir = 'contracts'
   const files = readdirSync(contractDir).filter(f => f.endsWith('.json'))
 
   for (const file of files) {
     const path = join(contractDir, file)
-    const data = JSON.parse(readFileSync(path, 'utf8'))
+    const data: ContractData = JSON.parse(readFileSync(path, 'utf8'))
     const valid = validateContract(data)
 
     if (valid) {
@@ -38,7 +51,7 @@ if (runContracts) {
     } else {
       hasErrors = true
       console.log(`  \x1b[31m✗\x1b[0m ${path}`)
-      for (const err of validateContract.errors) {
+      for (const err of validateContract.errors as ErrorObject[]) {
         console.log(`    ${err.instancePath || '/'} ${err.message}`)
       }
     }
@@ -51,7 +64,7 @@ if (runContracts) {
   }
 }
 
-if (runInterfaces) {
+if (runInterfaces && existsSync('interfaces')) {
   const interfaceDir = 'interfaces'
   const files = readdirSync(interfaceDir).filter(f => f.endsWith('.json'))
 
@@ -65,7 +78,7 @@ if (runInterfaces) {
     } else {
       hasErrors = true
       console.log(`  \x1b[31m✗\x1b[0m ${path}`)
-      for (const err of validateInterface.errors) {
+      for (const err of validateInterface.errors as ErrorObject[]) {
         console.log(`    ${err.instancePath || '/'} ${err.message}`)
       }
     }
@@ -79,12 +92,12 @@ if (hasErrors) {
   console.log('\n\x1b[32mAll files valid.\x1b[0m')
 }
 
-function extractName(key) {
+function extractName(key: string): string {
   if (SIGNATURE_RE.test(key)) return key.slice(0, key.indexOf('('))
   return key
 }
 
-function functionKeysMatch(ref, keys) {
+function functionKeysMatch(ref: string, keys: Set<string>): boolean {
   // Direct match
   if (keys.has(ref)) return true
   // ref is a bare name — check if any signature key starts with that name
@@ -96,8 +109,8 @@ function functionKeysMatch(ref, keys) {
   return false
 }
 
-function semanticChecks(data, path) {
-  const warnings = []
+function semanticChecks(data: ContractData, path: string): string[] {
+  const warnings: string[] = []
   const groups = data.groups ? Object.keys(data.groups) : []
 
   // Check function key formats and group/related references
