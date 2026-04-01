@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "$schema": "https://1001-digital.github.io/contract-metadata/v1/schema.json",
   "chainId": 1,
   "address": "0x036721e5a769cc48b3189efbb9cce4471e8a48b1",
   "includes": ["erc721"],
@@ -9,7 +9,7 @@
     "locale": "en"
   },
   "contract": {
-    "title": "Checks Originals",
+    "name": "Checks Originals",
     "shortDescription": "Onchain generative art examining the meaning of verification in the age of the internet.",
     "description": "Checks is an onchain artwork by Jack Butcher exploring the inversion of status, institutions, and notability. Launched as a 24-hour open edition on January 3, 2023, at $8 per mint — a direct reference to the cost of Twitter Blue verification. 16,031 pieces were minted. The Originals contract stores the artwork entirely onchain as SVG. Holders can composite (burn) pairs of tokens to halve the number of checks displayed, ascending through tiers of 80, 40, 20, 10, 5, 4, and 1 check. Burning 64 single-check tokens creates a Black Check — mathematically, only 3 can ever exist.",
     "origin": "Created by Jack Butcher / Visualize Value. Onchain rendering co-built with Jalil Wahdatehagh. Editions contract launched January 2023; Originals contract mints fully onchain SVG tokens by burning the corresponding Editions.",
@@ -38,10 +38,10 @@
       { "label": "Etherscan", "url": "https://etherscan.io/address/0x036721e5A769Cc48B3189EFbb9ccE4471E8A48B1" },
       { "label": "Website", "url": "https://checks.art" },
       { "label": "Jack Butcher", "url": "https://www.jack.art/checks-originals" }
-    ]
-  },
-  "presentation": {
-    "primaryColor": "#E84AA9"
+    ],
+    "theme": {
+      "accent": "#E84AA9"
+    }
   },
   "groups": {
     "minting": { "label": "Minting", "order": 1 },
@@ -62,7 +62,7 @@
         "recipient": {
           "label": "recipient",
           "description": "Address to receive the Originals",
-          "inputHint": "ens-resolve"
+          "type": "address"
         }
       }
     },
@@ -75,7 +75,7 @@
         "tokenId": {
           "label": "token ID",
           "description": "The Check token ID (matches the original edition number)",
-          "displayHint": "nft"
+          "type": "nft"
         }
       },
       "examples": [
@@ -89,7 +89,7 @@
       "stateMutability": "view",
       "group": "art",
       "params": {
-        "tokenId": { "label": "token ID", "displayHint": "nft" }
+        "tokenId": { "label": "token ID", "type": "nft" }
       },
       "related": ["colors", "tokenURI"]
     },
@@ -99,7 +99,7 @@
       "stateMutability": "view",
       "group": "art",
       "params": {
-        "tokenId": { "label": "token ID", "displayHint": "nft" }
+        "tokenId": { "label": "token ID", "type": "nft" }
       },
       "related": ["svg", "getCheck"]
     },
@@ -109,7 +109,7 @@
       "stateMutability": "view",
       "group": "art",
       "params": {
-        "tokenId": { "label": "token ID", "displayHint": "nft" }
+        "tokenId": { "label": "token ID", "type": "nft" }
       },
       "related": ["svg"]
     },
@@ -123,12 +123,12 @@
         "tokenId": {
           "label": "keep token ID",
           "description": "The token ID to keep (carries forward)",
-          "displayHint": "nft"
+          "type": "nft"
         },
         "burnId": {
           "label": "burn token ID",
           "description": "The token ID to burn",
-          "displayHint": "nft"
+          "type": "nft"
         },
         "swap": {
           "label": "swap visual",
@@ -161,8 +161,8 @@
       "stateMutability": "view",
       "group": "compositing",
       "params": {
-        "tokenId": { "label": "keep token ID", "displayHint": "nft" },
-        "burnId": { "label": "burn token ID", "displayHint": "nft" }
+        "tokenId": { "label": "keep token ID", "type": "nft" },
+        "burnId": { "label": "burn token ID", "type": "nft" }
       },
       "related": ["simulateCompositeSVG", "composite"]
     },
@@ -172,8 +172,8 @@
       "stateMutability": "view",
       "group": "compositing",
       "params": {
-        "tokenId": { "label": "keep token ID", "displayHint": "nft" },
-        "burnId": { "label": "burn token ID", "displayHint": "nft" }
+        "tokenId": { "label": "keep token ID", "type": "nft" },
+        "burnId": { "label": "burn token ID", "type": "nft" }
       },
       "related": ["simulateComposite", "composite"]
     },
@@ -201,12 +201,12 @@
         "tokenId": {
           "label": "receiving token ID",
           "description": "The token that receives the visual",
-          "displayHint": "nft"
+          "type": "nft"
         },
         "burnId": {
           "label": "sacrificed token ID",
           "description": "The token to burn (its visual transfers to the receiver)",
-          "displayHint": "nft"
+          "type": "nft"
         }
       },
       "related": ["inItForTheArts"]
@@ -229,7 +229,7 @@
       "group": "compositing",
       "warning": "Irreversible — the token is permanently destroyed.",
       "params": {
-        "tokenId": { "label": "token ID", "displayHint": "nft" }
+        "tokenId": { "label": "token ID", "type": "nft" }
       }
     },
     "resolveEpochIfNecessary": {
@@ -273,22 +273,22 @@
     "Composite": {
       "description": "Emitted when two Checks are composited, burning one and producing a piece with fewer checks (e.g. 80 → 40).",
       "params": {
-        "tokenId": { "label": "kept token ID", "displayHint": "nft" },
-        "burnId": { "label": "burned token ID", "displayHint": "nft" },
+        "tokenId": { "label": "kept token ID", "type": "nft" },
+        "burnId": { "label": "burned token ID", "type": "nft" },
         "divisor": { "label": "new divisor" }
       }
     },
     "Sacrifice": {
       "description": "Emitted when a Check is sacrificed to transfer its visual identity to another.",
       "params": {
-        "burnId": { "label": "sacrificed token ID", "displayHint": "nft" },
-        "tokenId": { "label": "receiving token ID", "displayHint": "nft" }
+        "burnId": { "label": "sacrificed token ID", "type": "nft" },
+        "tokenId": { "label": "receiving token ID", "type": "nft" }
       }
     },
     "Infinity": {
       "description": "Emitted when 64 single-check tokens are burned to create a Black Check.",
       "params": {
-        "blackCheckId": { "label": "Black Check token ID", "displayHint": "nft" },
+        "blackCheckId": { "label": "Black Check token ID", "type": "nft" },
         "tokenIds": { "label": "burned token IDs" }
       }
     },
@@ -302,7 +302,7 @@
     "MetadataUpdate": {
       "description": "Emitted when a token's metadata changes (e.g. after compositing).",
       "params": {
-        "_tokenId": { "label": "token ID", "displayHint": "nft" }
+        "_tokenId": { "label": "token ID", "type": "nft" }
       }
     }
   }

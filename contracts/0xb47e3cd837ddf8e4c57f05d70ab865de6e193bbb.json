@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "$schema": "https://1001-digital.github.io/contract-metadata/v1/schema.json",
   "chainId": 1,
   "address": "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb",
   "meta": {
@@ -8,7 +8,7 @@
     "locale": "en"
   },
   "contract": {
-    "title": "CryptoPunks",
+    "name": "CryptoPunks",
     "shortDescription": "10,000 unique collectible pixel art characters on Ethereum.",
     "description": "One of the earliest NFT projects, predating the ERC-721 standard. Each punk is a 24×24 pixel art image with randomly generated attributes including hairstyle, accessories, and skin tone.",
     "origin": "Deployed June 2017 by Larva Labs. All 10,000 punks were initially claimable for free. Now owned by Node foundation.",
@@ -37,23 +37,10 @@
     "links": [
       { "label": "Etherscan", "url": "https://etherscan.io/address/0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB" },
       { "label": "Larva Labs", "url": "https://larvalabs.com/cryptopunks" }
-    ]
-  },
-  "components": {
-    "sha256-content-prover": {
-      "src": "components/sha256-content-prover",
-      "slot": "function-result",
-      "function": "imageHash",
-      "props": {
-        "sourceUrl": "https://raw.githubusercontent.com/larvalabs/cryptopunks/master/punks.png",
-        "sourcePageUrl": "https://github.com/larvalabs/cryptopunks/blob/master/punks.png",
-        "explanationUrl": "https://punks.vv.xyz/the-art/the-punk-image",
-        "contentLabel": "Canonical image file"
-      }
+    ],
+    "theme": {
+      "accent": "#ff04b4"
     }
-  },
-  "presentation": {
-    "primaryColor": "#ff04b4"
   },
   "groups": {
     "ownership": { "label": "Ownership", "order": 1 },
@@ -71,11 +58,11 @@
         "_0": {
           "label": "punk index",
           "description": "The punk ID (0–9999)",
-          "displayHint": "nft",
+          "type": "nft",
           "validation": { "min": "0", "max": "9999" }
         }
       },
-      "returns": { "_0": { "label": "owner", "displayHint": "address" } },
+      "returns": { "_0": { "label": "owner", "type": "address" } },
       "examples": [
         { "label": "Check owner of Punk #0", "params": { "_0": "0" } },
         { "label": "Check owner of Punk #7804", "params": { "_0": "7804" } }
@@ -86,7 +73,7 @@
       "description": "Check how many punks an address owns.",
       "stateMutability": "view",
       "group": "ownership",
-      "params": { "_0": { "label": "holder", "inputHint": "ens-resolve" } }
+      "params": { "_0": { "label": "holder", "type": "address" } }
     },
     "transferPunk": {
       "title": "Transfer Punk",
@@ -95,11 +82,11 @@
       "group": "ownership",
       "warning": "This is a direct transfer with no payment involved. Make sure you intend to send the punk for free.",
       "params": {
-        "to": { "label": "recipient", "inputHint": "ens-resolve" },
+        "to": { "label": "recipient", "type": "address" },
         "punkIndex": {
           "label": "punk index",
           "description": "The punk ID to transfer (0–9999)",
-          "displayHint": "nft",
+          "type": "nft",
           "validation": { "min": "0", "max": "9999" }
         }
       },
@@ -113,13 +100,13 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "displayHint": "nft",
+          "type": "nft",
           "validation": { "min": "0", "max": "9999" }
         },
         "minSalePriceInWei": {
           "label": "minimum price",
           "description": "Minimum sale price",
-          "displayHint": "eth"
+          "type": "eth"
         }
       },
       "related": ["punkNoLongerForSale", "buyPunk"]
@@ -131,14 +118,14 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "displayHint": "nft",
+          "type": "nft",
           "validation": { "min": "0", "max": "9999" }
         },
-        "minSalePriceInWei": { "label": "minimum price", "displayHint": "eth" },
+        "minSalePriceInWei": { "label": "minimum price", "type": "eth" },
         "toAddress": {
           "label": "buyer",
           "description": "Only this address can buy the punk",
-          "inputHint": "ens-resolve"
+          "type": "address"
         }
       },
       "related": ["offerPunkForSale", "buyPunk"]
@@ -152,7 +139,7 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "displayHint": "nft",
+          "type": "nft",
           "validation": { "min": "0", "max": "9999" }
         }
       },
@@ -165,7 +152,7 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "displayHint": "nft",
+          "type": "nft",
           "validation": { "min": "0", "max": "9999" }
         }
       },
@@ -179,7 +166,7 @@
       "params": {
         "_0": {
           "label": "punk index",
-          "displayHint": "nft",
+          "type": "nft",
           "validation": { "min": "0", "max": "9999" }
         }
       }
@@ -193,7 +180,7 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "displayHint": "nft",
+          "type": "nft",
           "validation": { "min": "0", "max": "9999" }
         }
       },
@@ -206,7 +193,7 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "displayHint": "nft",
+          "type": "nft",
           "validation": { "min": "0", "max": "9999" }
         }
       },
@@ -219,13 +206,13 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "displayHint": "nft",
+          "type": "nft",
           "validation": { "min": "0", "max": "9999" }
         },
         "minPrice": {
           "label": "minimum price",
           "description": "Minimum bid amount you will accept (protects against front-running)",
-          "displayHint": "eth"
+          "type": "eth"
         }
       },
       "related": ["enterBidForPunk", "punkBids"]
@@ -238,7 +225,7 @@
       "params": {
         "_0": {
           "label": "punk index",
-          "displayHint": "nft",
+          "type": "nft",
           "validation": { "min": "0", "max": "9999" }
         }
       }
@@ -254,8 +241,8 @@
       "description": "Check the amount of ETH an address can withdraw from sales or returned bids.",
       "stateMutability": "view",
       "group": "marketplace",
-      "params": { "_0": { "label": "address", "inputHint": "ens-resolve" } },
-      "returns": { "_0": { "displayHint": "eth" } },
+      "params": { "_0": { "label": "address", "type": "address" } },
+      "returns": { "_0": { "type": "eth" } },
       "related": ["withdraw"]
     },
     "name": {
@@ -280,7 +267,15 @@
       "title": "Image Hash",
       "description": "SHA-256 hash of the composite image containing all 10,000 punks. Used to verify image authenticity.",
       "stateMutability": "view",
-      "group": "info"
+      "group": "info",
+      "_sha256_content_prover": {
+        "about": "https://github.com/1001-digital/sha256-content-prover",
+        "src": "components/sha256-content-prover",
+        "sourceUrl": "https://raw.githubusercontent.com/larvalabs/cryptopunks/master/punks.png",
+        "sourcePageUrl": "https://github.com/larvalabs/cryptopunks/blob/master/punks.png",
+        "explanationUrl": "https://punks.vv.xyz/the-art/the-punk-image",
+        "contentLabel": "Canonical image file"
+      }
     },
     "nextPunkIndexToAssign": {
       "title": "Next Punk Index to Assign",
@@ -308,7 +303,7 @@
       "params": {
         "punkIndex": {
           "label": "punk index",
-          "displayHint": "nft",
+          "type": "nft",
           "validation": { "min": "0", "max": "9999" }
         }
       }
@@ -320,38 +315,38 @@
       "params": {
         "from": { "label": "from" },
         "to": { "label": "to" },
-        "punkIndex": { "label": "punk index", "displayHint": "nft" }
+        "punkIndex": { "label": "punk index", "type": "nft" }
       }
     },
     "PunkOffered": {
       "description": "Emitted when a punk is listed for sale.",
       "params": {
-        "punkIndex": { "label": "punk index", "displayHint": "nft" },
-        "minValue": { "label": "minimum price", "displayHint": "eth" },
+        "punkIndex": { "label": "punk index", "type": "nft" },
+        "minValue": { "label": "minimum price", "type": "eth" },
         "toAddress": { "label": "exclusive buyer" }
       }
     },
     "PunkBidEntered": {
       "description": "Emitted when a bid is placed on a punk.",
       "params": {
-        "punkIndex": { "label": "punk index", "displayHint": "nft" },
-        "value": { "label": "bid amount", "displayHint": "eth" },
+        "punkIndex": { "label": "punk index", "type": "nft" },
+        "value": { "label": "bid amount", "type": "eth" },
         "fromAddress": { "label": "bidder" }
       }
     },
     "PunkBidWithdrawn": {
       "description": "Emitted when a bid is withdrawn.",
       "params": {
-        "punkIndex": { "label": "punk index", "displayHint": "nft" },
-        "value": { "label": "bid amount", "displayHint": "eth" },
+        "punkIndex": { "label": "punk index", "type": "nft" },
+        "value": { "label": "bid amount", "type": "eth" },
         "fromAddress": { "label": "bidder" }
       }
     },
     "PunkBought": {
       "description": "Emitted when a punk is sold.",
       "params": {
-        "punkIndex": { "label": "punk index", "displayHint": "nft" },
-        "value": { "label": "sale price", "displayHint": "eth" },
+        "punkIndex": { "label": "punk index", "type": "nft" },
+        "value": { "label": "sale price", "type": "eth" },
         "fromAddress": { "label": "seller" },
         "toAddress": { "label": "buyer" }
       }
@@ -359,14 +354,14 @@
     "PunkNoLongerForSale": {
       "description": "Emitted when a punk is delisted from the marketplace.",
       "params": {
-        "punkIndex": { "label": "punk index", "displayHint": "nft" }
+        "punkIndex": { "label": "punk index", "type": "nft" }
       }
     },
     "Assign": {
       "description": "Emitted during the initial claim phase when a punk was assigned to an address.",
       "params": {
         "to": { "label": "claimer" },
-        "punkIndex": { "label": "punk index", "displayHint": "nft" }
+        "punkIndex": { "label": "punk index", "type": "nft" }
       }
     },
     "Transfer": {
