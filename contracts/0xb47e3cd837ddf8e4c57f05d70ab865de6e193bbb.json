@@ -35,18 +35,22 @@
     "category": "token-id",
     "tags": ["token-id", "collectible", "pfp", "pixel-art", "og"],
     "links": [
-      { "label": "Etherscan", "url": "https://etherscan.io/address/0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB" },
-      { "label": "Larva Labs", "url": "https://larvalabs.com/cryptopunks" }
+      {
+        "label": "Etherscan",
+        "url": "https://etherscan.io/address/0xb47e3cd837dDF8e4c57F05d70Ab865de6e193BBB"
+      },
+      { "label": "Larva Labs", "url": "https://larvalabs.com/cryptopunks" },
+      { "label": "Website", "url": "https://www.cryptopunks.app" }
     ],
     "theme": {
       "accent": "#ff04b4"
     }
   },
   "groups": {
-    "ownership": { "label": "Ownership", "order": 1 },
-    "marketplace": { "label": "Marketplace", "order": 2 },
-    "bidding": { "label": "Bidding", "order": 3 },
-    "info": { "label": "Contract Info", "order": 4 }
+    "info": { "label": "Contract Info", "order": 1 },
+    "ownership": { "label": "Ownership", "order": 2 },
+    "marketplace": { "label": "Marketplace", "order": 3 },
+    "genesis": { "label": "Original Assignment", "order": 4 }
   },
   "functions": {
     "punkIndexToAddress": {
@@ -175,7 +179,7 @@
       "title": "Place Bid",
       "description": "Place a bid on a punk by sending ETH. Your ETH is held in the contract until the bid is accepted or you withdraw it.",
       "intent": "Place bid on Punk #{punkIndex}",
-      "group": "bidding",
+      "group": "marketplace",
       "warning": "Your ETH will be locked in the contract until the bid is accepted or withdrawn.",
       "params": {
         "punkIndex": {
@@ -189,7 +193,7 @@
     "withdrawBidForPunk": {
       "title": "Withdraw Bid",
       "description": "Withdraw your bid on a punk, returning your locked ETH.",
-      "group": "bidding",
+      "group": "marketplace",
       "params": {
         "punkIndex": {
           "label": "punk index",
@@ -202,7 +206,7 @@
     "acceptBidForPunk": {
       "title": "Accept Bid",
       "description": "Accept the highest bid on a punk you own. The punk is transferred to the bidder and the bid amount is credited to your pending withdrawals.",
-      "group": "bidding",
+      "group": "marketplace",
       "params": {
         "punkIndex": {
           "label": "punk index",
@@ -221,7 +225,7 @@
       "title": "Bid Info",
       "description": "Check the current bid on a punk.",
       "stateMutability": "view",
-      "group": "bidding",
+      "group": "marketplace",
       "params": {
         "_0": {
           "label": "punk index",
@@ -276,29 +280,11 @@
         "contentLabel": "Canonical image file"
       }
     },
-    "nextPunkIndexToAssign": {
-      "title": "Next Punk Index to Assign",
-      "description": "The next punk index to be assigned during the initial claim phase. All punks have been claimed, so this is historical.",
-      "stateMutability": "view",
-      "group": "info"
-    },
-    "allPunksAssigned": {
-      "title": "All Punks Assigned",
-      "description": "Whether all 10,000 punks have been claimed. Returns true.",
-      "stateMutability": "view",
-      "group": "info"
-    },
-    "punksRemainingToAssign": {
-      "title": "Punks Remaining to Assign",
-      "description": "Number of punks still available to claim. Returns 0 (all claimed).",
-      "stateMutability": "view",
-      "group": "info"
-    },
     "getPunk": {
       "title": "Claim Punk (Inactive)",
       "description": "Originally used to claim a free punk during the initial distribution. All 10,000 punks have been claimed — this function is no longer usable.",
       "deprecated": "All 10,000 punks have been claimed. This function will revert.",
-      "group": "info",
+      "group": "genesis",
       "params": {
         "punkIndex": {
           "label": "punk index",
@@ -306,6 +292,24 @@
           "validation": { "min": "0", "max": "9999" }
         }
       }
+    },
+    "nextPunkIndexToAssign": {
+      "title": "Next Punk Index to Assign",
+      "description": "The next punk index to be assigned during the initial claim phase. All punks have been claimed, so this is historical.",
+      "stateMutability": "view",
+      "group": "genesis"
+    },
+    "allPunksAssigned": {
+      "title": "All Punks Assigned",
+      "description": "Whether all 10,000 punks have been claimed. Returns true.",
+      "stateMutability": "view",
+      "group": "genesis"
+    },
+    "punksRemainingToAssign": {
+      "title": "Punks Remaining to Assign",
+      "description": "Number of punks still available to claim. Returns 0 (all claimed).",
+      "stateMutability": "view",
+      "group": "genesis"
     }
   },
   "events": {
