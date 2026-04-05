@@ -5,7 +5,7 @@
   "includes": ["erc721"],
   "meta": {
     "version": 1,
-    "lastUpdated": "2026-03-28T00:00:00Z",
+    "lastUpdated": "2026-04-05T00:00:00Z",
     "locale": "en"
   },
   "contract": {
@@ -119,6 +119,7 @@
       "intent": "Composite Check #{tokenId} with #{burnId}",
       "group": "compositing",
       "warning": "Permanently burns one token. The burn cannot be reversed.",
+      "_checks_composite_preview": {},
       "params": {
         "tokenId": {
           "label": "keep token ID",
