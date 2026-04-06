@@ -37,6 +37,7 @@ Contract Metadata is a JSON standard that layers human-readable context on top o
 ```
 contracts/       Example metadata files for deployed contracts
 schema/          JSON Schema definitions and shared interfaces
+extensions/      Well-known extension conventions
 validate.ts      Schema + semantic validation script
 eip-draft.md     Full EIP specification
 ```
@@ -54,6 +55,12 @@ npm run validate
 2. Follow the schema at `schema/contract-metadata.schema.json`
 3. Include at minimum: `$schema`, `chainId`, `address`, and `contract.name`
 4. Run `npm run validate` to check your file
+
+## Extensions
+
+The metadata standard supports custom extensions (keys starting with `_`) on all renderable objects. The following well-known extensions are documented:
+
+- [`_component`](./extensions/_component.md) — Register a custom UI component on a function, event, parameter, or other metadata object.
 
 ## Authors
 
