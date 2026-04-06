@@ -1,0 +1,341 @@
+{
+  "$schema": "https://1001-digital.github.io/contract-metadata/v1/schema.json",
+  "chainId": 1,
+  "address": "0xf3e732194ba87d68fd6ec3d5b1bf813599c8406a",
+  "meta": {
+    "version": 1,
+    "lastUpdated": "2026-04-06T00:00:00Z",
+    "locale": "en"
+  },
+  "contract": {
+    "name": "Mnemonic",
+    "symbol": "M",
+    "shortDescription": "Absence as presence.",
+    "description": "Mnemonic is a single-edition generative artwork stored entirely onchain. The contract holds the complete WebGL source code and an HTML renderer, making the piece permanently accessible from the blockchain without external dependencies. A built-in marketplace allows the owner to list the work for sale or accept bids, with configurable royalties paid to the artist on every sale.",
+    "origin": "Created by Han Saglam (han.io). Deployed on Ethereum mainnet as a standalone art contract.",
+    "about": [
+      {
+        "heading": "About the artpiece",
+        "body": "Mnemonic (2024) is a one-of-one generative work by Han Saglam, realized entirely within an Ethereum smart contract. The piece renders an interactive three-dimensional environment through WebGL shaders that responds to the viewer's gesture — inviting a shift in perspective through direct manipulation. Both the source code and its HTML renderer are stored permanently onchain, making the work self-contained and independent of any external infrastructure. Mnemonic reflects Saglam's ongoing inquiry into digital permanence and the blockchain as artistic medium, foregrounding absence and presence as a conceptual axis."
+      },
+      {
+        "heading": "About the artist",
+        "body": "Han Saglam is an artist pioneering the world computer as an artistic medium, working through generative systems, smart contracts, data, and machine intelligence. His practice concentrates on autonomous systems and digital permanence — exploring how code functions as art. Works held in permanent collections at LACMA and Dataland Museum, and pieces have exceeded estimates at Sotheby's and Christie's."
+      },
+      {
+        "heading": "Built-in marketplace",
+        "body": "The contract includes a native marketplace for trading the artwork. The owner can list it for sale at a fixed price (publicly or to a specific address), and anyone can place bids. A configurable royalty percentage is paid to the royalty recipient on every sale or accepted bid. Sale proceeds and outbid returns are credited to pending withdrawals and must be claimed manually."
+      }
+    ],
+    "risks": [
+      "No upgradeability — contract logic is permanent and cannot be patched",
+      "ETH withdrawal pattern — sale proceeds and returned bids must be manually withdrawn via withdraw()",
+      "Royalty enforcement only applies to the built-in marketplace — external transfers via transferOwnership bypass royalties"
+    ],
+    "category": "nft",
+    "tags": ["art", "generative", "onchain", "1-of-1", "webgl", "interactive"],
+    "links": [
+      {
+        "label": "Etherscan",
+        "url": "https://etherscan.io/address/0xf3e732194ba87d68fd6ec3d5b1bf813599c8406a"
+      },
+      { "label": "Artist", "url": "https://han.io" },
+      { "label": "X (Twitter)", "url": "https://x.com/hanrgb" }
+    ]
+  },
+  "groups": {
+    "artwork": { "label": "Artwork", "order": 1 },
+    "marketplace": { "label": "Marketplace", "order": 2 },
+    "admin": { "label": "Admin", "order": 3 }
+  },
+  "functions": {
+    "name": {
+      "order": 0,
+      "title": "Name",
+      "description": "The name of the artwork (Mnemonic).",
+      "stateMutability": "view",
+      "group": "artwork"
+    },
+    "symbol": {
+      "order": 1,
+      "title": "Symbol",
+      "description": "The token symbol (M).",
+      "stateMutability": "view",
+      "group": "artwork"
+    },
+    "MANIFEST": {
+      "order": 2,
+      "title": "Manifest",
+      "description": "The artist's statement for the work: \"Absence as presence.\"",
+      "stateMutability": "view",
+      "group": "artwork"
+    },
+    "artpiece": {
+      "order": 3,
+      "title": "View Artpiece",
+      "description": "Returns the full HTML document that renders the generative artwork. Open in a browser to experience the piece.",
+      "stateMutability": "view",
+      "group": "artwork",
+      "featured": true
+    },
+    "CORE": {
+      "order": 4,
+      "title": "Source Code",
+      "description": "The complete JavaScript source code that powers the generative artwork. Stored permanently onchain.",
+      "stateMutability": "view",
+      "group": "artwork"
+    },
+    "owner": {
+      "order": 0,
+      "title": "Owner",
+      "description": "The current owner of the artwork.",
+      "stateMutability": "view",
+      "group": "marketplace",
+      "returns": { "_0": { "type": "address" } }
+    },
+    "royaltyPercentage": {
+      "title": "Royalty Percentage",
+      "description": "The percentage of each sale paid as a royalty to the royalty recipient.",
+      "stateMutability": "view",
+      "group": "marketplace",
+      "returns": { "_0": { "label": "royalty %", "type": "percentage" } }
+    },
+    "royaltyRecipient": {
+      "title": "Royalty Recipient",
+      "description": "The address that receives royalty payments from marketplace sales.",
+      "stateMutability": "view",
+      "group": "marketplace",
+      "returns": { "_0": { "type": "address" } }
+    },
+    "currentOffer": {
+      "title": "Current Offer",
+      "description": "Check whether the artwork is currently listed for sale, at what price, and to whom.",
+      "stateMutability": "view",
+      "group": "marketplace",
+      "returns": {
+        "active": { "label": "for sale" },
+        "value": { "label": "price", "type": "eth" },
+        "toAddress": {
+          "label": "reserved for",
+          "description": "If set, only this address can buy. Zero address means open to anyone.",
+          "type": "address"
+        }
+      },
+      "related": ["buyNow", "listForSale"]
+    },
+    "currentBid": {
+      "title": "Current Bid",
+      "description": "Check the current highest bid on the artwork.",
+      "stateMutability": "view",
+      "group": "marketplace",
+      "returns": {
+        "active": { "label": "has bid" },
+        "value": { "label": "bid amount", "type": "eth" },
+        "fromAddress": { "label": "bidder", "type": "address" }
+      },
+      "related": ["placeBid", "acceptBid"]
+    },
+    "buyNow": {
+      "title": "Buy Now",
+      "description": "Purchase the artwork at the listed price. The piece must be currently listed for sale, and the exact asking price must be sent as ETH.",
+      "intent": "Buy Mnemonic for the listed price",
+      "group": "marketplace",
+      "featured": true,
+      "warning": "Sends ETH. The exact listed price must be sent — no more, no less.",
+      "related": ["currentOffer", "listForSale"]
+    },
+    "placeBid": {
+      "title": "Place Bid",
+      "description": "Place a bid on the artwork. Must be higher than the current bid. Your ETH is held in the contract until the bid is accepted or you withdraw it.",
+      "intent": "Place a bid on Mnemonic",
+      "group": "marketplace",
+      "warning": "Your ETH will be locked in the contract until the owner accepts or you withdraw.",
+      "related": ["currentBid", "withdrawBid", "acceptBid"]
+    },
+    "acceptBid": {
+      "title": "Accept Bid",
+      "description": "Accept the current highest bid. The artwork is transferred to the bidder and the bid amount (minus royalty) is credited to the owner's pending withdrawals. Only the owner can call this.",
+      "group": "marketplace",
+      "related": ["currentBid", "placeBid"]
+    },
+    "withdrawBid": {
+      "title": "Withdraw Bid",
+      "description": "Withdraw your active bid, returning your locked ETH. Only the current bidder can call this.",
+      "group": "marketplace",
+      "related": ["placeBid", "currentBid"]
+    },
+    "listForSale": {
+      "title": "List for Sale",
+      "description": "List the artwork for sale at a fixed price, open to anyone. Only the owner can call this.",
+      "intent": "List Mnemonic for sale at {salePriceInWei}",
+      "group": "marketplace",
+      "params": {
+        "salePriceInWei": { "label": "price", "type": "eth" }
+      },
+      "related": ["listForSaleToAddress", "cancelFromSale", "buyNow"]
+    },
+    "listForSaleToAddress": {
+      "title": "List for Sale (Private)",
+      "description": "List the artwork for sale to a specific address only. Only the owner can call this.",
+      "intent": "List Mnemonic for sale at {salePriceInWei} to {toAddress}",
+      "group": "marketplace",
+      "params": {
+        "salePriceInWei": { "label": "price", "type": "eth" },
+        "toAddress": {
+          "label": "buyer",
+          "description": "Only this address can purchase the artwork",
+          "type": "address"
+        }
+      },
+      "related": ["listForSale", "cancelFromSale", "buyNow"]
+    },
+    "cancelFromSale": {
+      "title": "Cancel Sale",
+      "description": "Remove the artwork from sale. Only the owner can call this.",
+      "group": "marketplace",
+      "related": ["listForSale", "currentOffer"]
+    },
+    "withdraw": {
+      "title": "Withdraw ETH",
+      "description": "Withdraw ETH owed to you from sales or returned bids.",
+      "group": "marketplace",
+      "related": ["pendingWithdrawals"]
+    },
+    "pendingWithdrawals": {
+      "title": "Pending Withdrawals",
+      "description": "Check the amount of ETH an address can withdraw from sales or returned bids.",
+      "stateMutability": "view",
+      "group": "marketplace",
+      "params": {
+        "_0": { "label": "address", "type": "address" }
+      },
+      "returns": {
+        "_0": { "type": "eth" }
+      },
+      "related": ["withdraw"]
+    },
+    "transferOwnership": {
+      "title": "Transfer Ownership",
+      "description": "Transfer the artwork to another address without going through the marketplace. Bypasses royalties. If the new owner has an active bid, it is refunded. Any active sale listing is canceled.",
+      "intent": "Transfer Mnemonic to {newOwner}",
+      "group": "admin",
+      "warning": "This is a direct transfer with no payment involved. Royalties are not collected. Make sure you intend to send the artwork for free.",
+      "params": {
+        "newOwner": { "label": "new owner", "type": "address" }
+      }
+    },
+    "setRoyaltyRecipient": {
+      "title": "Set Royalty Recipient",
+      "description": "Change the address that receives royalty payments. Only the current royalty recipient can call this.",
+      "group": "admin",
+      "params": {
+        "newRoyaltyRecipient": { "label": "new recipient", "type": "address" }
+      }
+    }
+  },
+  "events": {
+    "ArtpieceCreated": {
+      "title": "Artpiece Created",
+      "description": "Emitted when the contract is deployed and the artwork is created.",
+      "params": {
+        "creator": { "label": "creator", "type": "address" }
+      }
+    },
+    "ArtpieceTransferred": {
+      "title": "Artpiece Transferred",
+      "description": "Emitted when ownership of the artwork changes.",
+      "params": {
+        "oldOwner": { "label": "from", "type": "address" },
+        "newOwner": { "label": "to", "type": "address" }
+      }
+    },
+    "ListedForSale": {
+      "description": "Emitted when the artwork is listed for sale.",
+      "params": {
+        "value": { "label": "price", "type": "eth" },
+        "fromAddress": { "label": "seller", "type": "address" },
+        "toAddress": { "label": "reserved for", "type": "address" }
+      }
+    },
+    "SaleCompleted": {
+      "description": "Emitted when the artwork is sold via buyNow.",
+      "params": {
+        "value": { "label": "sale price", "type": "eth" },
+        "fromAddress": { "label": "seller", "type": "address" },
+        "toAddress": { "label": "buyer", "type": "address" }
+      }
+    },
+    "SaleCanceled": {
+      "description": "Emitted when a sale listing is canceled.",
+      "params": {
+        "value": { "label": "listed price", "type": "eth" },
+        "fromAddress": { "label": "seller", "type": "address" },
+        "toAddress": { "label": "was reserved for", "type": "address" }
+      }
+    },
+    "BidPlaced": {
+      "description": "Emitted when a bid is placed on the artwork.",
+      "params": {
+        "value": { "label": "bid amount", "type": "eth" },
+        "fromAddress": { "label": "bidder", "type": "address" }
+      }
+    },
+    "BidAccepted": {
+      "description": "Emitted when the owner accepts a bid.",
+      "params": {
+        "value": { "label": "bid amount", "type": "eth" },
+        "fromAddress": { "label": "seller", "type": "address" },
+        "toAddress": { "label": "bidder", "type": "address" }
+      }
+    },
+    "BidWithdrawn": {
+      "description": "Emitted when a bidder withdraws their bid.",
+      "params": {
+        "value": { "label": "bid amount", "type": "eth" },
+        "fromAddress": { "label": "bidder", "type": "address" }
+      }
+    }
+  },
+  "errors": {
+    "NotOwner": {
+      "title": "Not Owner",
+      "description": "Only the current owner can perform this action."
+    },
+    "NotRoyaltyRecipient": {
+      "title": "Not Royalty Recipient",
+      "description": "Only the current royalty recipient can change the royalty address."
+    },
+    "NotForSale": {
+      "title": "Not for Sale",
+      "description": "The artwork is not currently listed for sale."
+    },
+    "ListedForSaleToSpecificAddress": {
+      "title": "Private Sale",
+      "description": "The artwork is listed for sale to a specific address only. You are not the designated buyer."
+    },
+    "InsufficientFunds": {
+      "title": "Insufficient Funds",
+      "description": "The amount sent does not match the required price, or the bid is not higher than the current bid."
+    },
+    "NoBid": {
+      "title": "No Bid",
+      "description": "There is no active bid to accept."
+    },
+    "NotYourBid": {
+      "title": "Not Your Bid",
+      "description": "Only the current bidder can withdraw their bid."
+    },
+    "NullAddress": {
+      "title": "Null Address",
+      "description": "Cannot transfer ownership or set royalty recipient to the zero address."
+    },
+    "RoyaltyTooHigh": {
+      "title": "Royalty Too High",
+      "description": "Royalty percentage must be less than 100%."
+    },
+    "FundsTransfer": {
+      "title": "Funds Transfer Failed",
+      "description": "ETH transfer failed. Ensure the recipient address can receive ETH."
+    }
+  }
+}
