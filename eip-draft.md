@@ -364,7 +364,7 @@ Messages are keyed by EIP-712 primary type name and MUST be defined on the contr
 
 ### Extensions
 
-Publishers MAY use custom extension objects anywhere in a metadata file. Extension names MUST start with an `_` character followed by a letter. Consumers that do not understand a given extension MUST ignore it.
+Publishers MAY use custom extension objects on the root document, contract metadata, functions, events, errors, messages, and parameters. Extension names MUST start with an `_` character followed by a letter. Consumers that do not understand a given extension MUST ignore it.
 
 ```json
 {
