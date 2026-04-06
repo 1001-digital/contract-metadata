@@ -105,6 +105,11 @@
       "type": "object",
       "description": "Contract-level context and metadata. The name, symbol, description, image, banner_image, featured_image, and external_link fields are compatible with ERC-7572.",
       "additionalProperties": false,
+      "patternProperties": {
+        "^_[a-zA-Z]": {
+          "description": "Extension object. Names must start with _ followed by a letter. Consumers that do not understand a given extension must ignore it."
+        }
+      },
       "properties": {
         "name": {
           "type": "string",
@@ -382,6 +387,11 @@
       "type": "object",
       "description": "Metadata for an EIP-712 typed message verified by this contract.",
       "additionalProperties": false,
+      "patternProperties": {
+        "^_[a-zA-Z]": {
+          "description": "Extension object. Names must start with _ followed by a letter. Consumers that do not understand a given extension must ignore it."
+        }
+      },
       "properties": {
         "title": {
           "type": "string",
@@ -411,6 +421,11 @@
     "EventMeta": {
       "type": "object",
       "additionalProperties": false,
+      "patternProperties": {
+        "^_[a-zA-Z]": {
+          "description": "Extension object. Names must start with _ followed by a letter. Consumers that do not understand a given extension must ignore it."
+        }
+      },
       "properties": {
         "title": {
           "type": "string",
@@ -432,6 +447,11 @@
     "ErrorMeta": {
       "type": "object",
       "additionalProperties": false,
+      "patternProperties": {
+        "^_[a-zA-Z]": {
+          "description": "Extension object. Names must start with _ followed by a letter. Consumers that do not understand a given extension must ignore it."
+        }
+      },
       "properties": {
         "title": {
           "type": "string",
@@ -453,6 +473,11 @@
     "ParamMeta": {
       "type": "object",
       "additionalProperties": false,
+      "patternProperties": {
+        "^_[a-zA-Z]": {
+          "description": "Extension object. Names must start with _ followed by a letter. Consumers that do not understand a given extension must ignore it."
+        }
+      },
       "properties": {
         "label": {
           "type": "string",

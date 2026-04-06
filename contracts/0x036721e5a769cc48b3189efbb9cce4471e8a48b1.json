@@ -119,7 +119,7 @@
       "intent": "Composite Check #{tokenId} with #{burnId}",
       "group": "compositing",
       "warning": "Permanently burns one token. The burn cannot be reversed.",
-      "_checks_composite_preview": {},
+      "_component": "checks-composite-preview",
       "params": {
         "tokenId": {
           "label": "keep token ID",
