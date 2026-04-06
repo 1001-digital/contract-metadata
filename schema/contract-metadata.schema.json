@@ -318,6 +318,11 @@
         }
       },
       "properties": {
+        "order": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Display order within the function's group (lower numbers appear first). Functions without an order are sorted after ordered ones."
+        },
         "title": {
           "type": "string",
           "description": "Human-readable function name."
@@ -393,6 +398,11 @@
         }
       },
       "properties": {
+        "order": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Display order (lower numbers appear first). Messages without an order are sorted after ordered ones."
+        },
         "title": {
           "type": "string",
           "description": "Human-readable name for this message type."
@@ -427,6 +437,11 @@
         }
       },
       "properties": {
+        "order": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Display order (lower numbers appear first). Events without an order are sorted after ordered ones."
+        },
         "title": {
           "type": "string",
           "description": "Human-readable event name."
@@ -453,6 +468,11 @@
         }
       },
       "properties": {
+        "order": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Display order (lower numbers appear first). Errors without an order are sorted after ordered ones."
+        },
         "title": {
           "type": "string",
           "description": "Human-readable error name."

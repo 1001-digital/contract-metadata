@@ -151,6 +151,7 @@ Each function entry MAY include the following fields:
 }
 ```
 
+- `order` (integer): Display order within the function's group. Lower numbers appear first. Functions without an `order` are sorted after ordered ones.
 - `title` (string): Human-readable title for the function.
 - `description` (string): Longer explanation of what the function does.
 - `group` (string): Key referencing a named group in the `groups` object.
@@ -250,6 +251,8 @@ Functions MAY be organized into named groups. Each group MUST have a `label` and
   }
 }
 ```
+
+Individual functions, events, errors, and messages MAY also have an `order` field to control display order within their group (or among ungrouped items). Lower numbers appear first. Items without an `order` are sorted after ordered ones.
 
 ### Intent Templates
 
