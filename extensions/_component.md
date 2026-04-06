@@ -20,7 +20,7 @@ The extension accepts either a string (component type only) or an object (compon
 | Field | Required | Description |
 |-------|----------|-------------|
 | `type` | Yes | Component type identifier (e.g. `"sha256-content-prover"`, `"color-picker"`) |
-| `props` | No | Component-specific configuration |
+| `props` | No | Component-specific configuration passed to the component at runtime |
 
 Consumers that do not recognize the `type` value SHOULD ignore the extension entirely.
 
@@ -56,11 +56,13 @@ A content prover component that verifies a hash stored onchain against a known s
       "_component": {
         "type": "sha256-content-prover",
         "props": {
-          "about": "https://github.com/1001-digital/sha256-content-prover",
           "sourceUrl": "https://raw.githubusercontent.com/larvalabs/cryptopunks/master/punks.png",
-          "sourcePageUrl": "https://github.com/larvalabs/cryptopunks/blob/master/punks.png",
-          "explanationUrl": "https://punks.vv.xyz/the-art/the-punk-image",
-          "contentLabel": "Canonical image file"
+          "contentLabel": "Canonical image file",
+          "contentType": "image",
+          "links": [
+            { "label": "View source on GitHub", "url": "https://github.com/larvalabs/cryptopunks/blob/master/punks.png" },
+            { "label": "Learn why this hash matters", "url": "https://punks.vv.xyz/the-art/the-punk-image" }
+          ]
         }
       }
     }
