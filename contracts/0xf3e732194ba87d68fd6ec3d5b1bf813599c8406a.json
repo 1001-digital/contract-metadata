@@ -113,7 +113,7 @@
       "stateMutability": "view",
       "group": "marketplace",
       "returns": {
-        "active": { "label": "for sale" },
+        "active": { "label": "for sale", "type": "boolean" },
         "value": { "label": "price", "type": "eth" },
         "toAddress": {
           "label": "reserved for",
@@ -129,7 +129,7 @@
       "stateMutability": "view",
       "group": "marketplace",
       "returns": {
-        "active": { "label": "has bid" },
+        "active": { "label": "has bid", "type": "boolean" },
         "value": { "label": "bid amount", "type": "eth" },
         "fromAddress": { "label": "bidder", "type": "address" }
       },
