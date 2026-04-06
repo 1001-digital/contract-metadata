@@ -173,6 +173,13 @@
           "type": "token-id",
           "validation": { "min": "0", "max": "9999" }
         }
+      },
+      "returns": {
+        "isForSale": { "label": "for sale", "type": "boolean" },
+        "punkIndex": { "label": "punk", "type": "token-id" },
+        "seller": { "label": "seller", "type": "address" },
+        "minValue": { "label": "min price", "type": "eth" },
+        "onlySellTo": { "label": "Only sell to", "type": "address" }
       }
     },
     "enterBidForPunk": {
@@ -232,6 +239,12 @@
           "type": "token-id",
           "validation": { "min": "0", "max": "9999" }
         }
+      },
+      "returns": {
+        "hasBid": { "label": "has bid", "type": "boolean" },
+        "punkIndex": { "label": "punk", "type": "token-id" },
+        "bidder": { "label": "bidder", "type": "address" },
+        "value": { "label": "bid amount", "type": "eth" }
       }
     },
     "withdraw": {
