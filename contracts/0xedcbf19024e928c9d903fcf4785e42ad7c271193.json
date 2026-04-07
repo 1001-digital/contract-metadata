@@ -20,7 +20,7 @@
       },
       {
         "heading": "Tiered subscriptions",
-        "body": "Four tiers are available: Supporter ($10/month), Gold ($69/month), Platinum ($250/month), and Partner ($1,000/month). Prices are denominated in USD and converted to ETH at the current exchange rate via Chainlink's ETH/USD price feed. Committing to 12 or more months earns a 20% discount. The Partner tier cannot be purchased directly — it is granted by the contract owner to select collaborators.\n\nSubscriptions can be extended at the same tier, upgraded to a higher tier, or downgraded. When changing tiers, remaining time is converted pro-rata at the respective tier prices. Upgrades require at least 30 days of new coverage. Anyone can gift or extend a subscription for someone else, though only the recipient (or owner) can change tiers."
+        "body": "Four tiers are available: Supporter ($10/month), Gold ($69/month), Platinum ($250/month), and Partner. Prices are denominated in USD and converted to ETH at the current exchange rate via Chainlink's ETH/USD price feed. Committing to 12 or more months earns a 20% discount. The Partner tier cannot be purchased directly — it is granted by the contract owner to select collaborators.\n\nSubscriptions can be extended at the same tier, upgraded to a higher tier, or downgraded. When changing tiers, remaining time is converted pro-rata at the respective tier prices. Upgrades require at least 30 days of new coverage. Anyone can gift or extend a subscription for someone else, though only the recipient (or owner) can change tiers."
       },
       {
         "heading": "Onchain NFT membership cards",
@@ -41,7 +41,10 @@
     "category": "utility",
     "tags": ["subscription", "patronage", "nft", "onchain-svg", "membership"],
     "links": [
-      { "label": "Etherscan", "url": "https://etherscan.io/address/0xeDCBf19024e928c9D903fCf4785e42AD7C271193" },
+      {
+        "label": "Etherscan",
+        "url": "https://etherscan.io/address/0xeDCBf19024e928c9D903fCf4785e42AD7C271193"
+      },
       { "label": "EVM.NOW", "url": "https://evm.now" },
       { "label": "GitHub", "url": "https://github.com/1001-digital/support" }
     ],
@@ -71,7 +74,15 @@
         "tier": {
           "label": "tier",
           "description": "Subscription tier: 0 = Supporter ($10/mo), 1 = Gold ($69/mo), 2 = Platinum ($250/mo), 3 = Partner ($1,000/mo, grant-only)",
-          "type": { "type": "enum", "values": { "0": "Supporter", "1": "Gold", "2": "Platinum", "3": "Partner (grant-only)" } }
+          "type": {
+            "type": "enum",
+            "values": {
+              "0": "Supporter",
+              "1": "Gold",
+              "2": "Platinum",
+              "3": "Partner (grant-only)"
+            }
+          }
         },
         "duration": {
           "label": "months",
@@ -89,7 +100,10 @@
       "params": {
         "tier": {
           "label": "tier",
-          "type": { "type": "enum", "values": { "0": "Supporter", "1": "Gold", "2": "Platinum" } }
+          "type": {
+            "type": "enum",
+            "values": { "0": "Supporter", "1": "Gold", "2": "Platinum" }
+          }
         },
         "duration": {
           "label": "months",
@@ -104,11 +118,28 @@
       },
       "returns": {
         "ethCost": { "label": "ETH cost", "type": "eth" },
-        "adjustedDuration": { "label": "adjusted duration", "description": "Duration after any hook adjustments" }
+        "adjustedDuration": {
+          "label": "adjusted duration",
+          "description": "Duration after any hook adjustments"
+        }
       },
       "examples": [
-        { "label": "Supporter for 1 month", "params": { "tier": "0", "duration": "1", "supporter": "0x0000000000000000000000000000000000000000" } },
-        { "label": "Gold for 12 months (20% off)", "params": { "tier": "1", "duration": "12", "supporter": "0x0000000000000000000000000000000000000000" } }
+        {
+          "label": "Supporter for 1 month",
+          "params": {
+            "tier": "0",
+            "duration": "1",
+            "supporter": "0x0000000000000000000000000000000000000000"
+          }
+        },
+        {
+          "label": "Gold for 12 months (20% off)",
+          "params": {
+            "tier": "1",
+            "duration": "12",
+            "supporter": "0x0000000000000000000000000000000000000000"
+          }
+        }
       ],
       "related": ["support", "tierPrices"]
     },
@@ -124,7 +155,15 @@
         },
         "tier": {
           "label": "tier",
-          "type": { "type": "enum", "values": { "0": "Supporter", "1": "Gold", "2": "Platinum", "3": "Partner" } }
+          "type": {
+            "type": "enum",
+            "values": {
+              "0": "Supporter",
+              "1": "Gold",
+              "2": "Platinum",
+              "3": "Partner"
+            }
+          }
         },
         "duration": {
           "label": "months",
@@ -199,7 +238,15 @@
       "returns": {
         "_0": {
           "label": "tier",
-          "type": { "type": "enum", "values": { "0": "Supporter", "1": "Gold", "2": "Platinum", "3": "Partner" } }
+          "type": {
+            "type": "enum",
+            "values": {
+              "0": "Supporter",
+              "1": "Gold",
+              "2": "Platinum",
+              "3": "Partner"
+            }
+          }
         },
         "_1": { "label": "active" }
       },
@@ -226,7 +273,15 @@
       "params": {
         "_0": {
           "label": "tier",
-          "type": { "type": "enum", "values": { "0": "Supporter", "1": "Gold", "2": "Platinum", "3": "Partner" } }
+          "type": {
+            "type": "enum",
+            "values": {
+              "0": "Supporter",
+              "1": "Gold",
+              "2": "Platinum",
+              "3": "Partner"
+            }
+          }
         }
       }
     },
@@ -283,7 +338,15 @@
       "params": {
         "tier": {
           "label": "tier",
-          "type": { "type": "enum", "values": { "0": "Supporter", "1": "Gold", "2": "Platinum", "3": "Partner" } }
+          "type": {
+            "type": "enum",
+            "values": {
+              "0": "Supporter",
+              "1": "Gold",
+              "2": "Platinum",
+              "3": "Partner"
+            }
+          }
         },
         "priceUSD": {
           "label": "price (USD, 8 decimals)",
@@ -396,7 +459,15 @@
         "supporter": { "label": "supporter", "type": "address" },
         "tier": {
           "label": "tier",
-          "type": { "type": "enum", "values": { "0": "Supporter", "1": "Gold", "2": "Platinum", "3": "Partner" } }
+          "type": {
+            "type": "enum",
+            "values": {
+              "0": "Supporter",
+              "1": "Gold",
+              "2": "Platinum",
+              "3": "Partner"
+            }
+          }
         },
         "subscriptionId": { "label": "subscription ID", "type": "token-id" },
         "duration": { "label": "months" },
@@ -410,7 +481,15 @@
       "params": {
         "tier": {
           "label": "tier",
-          "type": { "type": "enum", "values": { "0": "Supporter", "1": "Gold", "2": "Platinum", "3": "Partner" } }
+          "type": {
+            "type": "enum",
+            "values": {
+              "0": "Supporter",
+              "1": "Gold",
+              "2": "Platinum",
+              "3": "Partner"
+            }
+          }
         },
         "priceUSD": { "label": "price (USD, 8 decimals)" }
       }
