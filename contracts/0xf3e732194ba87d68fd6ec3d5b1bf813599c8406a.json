@@ -7,42 +7,25 @@
     "lastUpdated": "2026-04-06T00:00:00Z",
     "locale": "en"
   },
-  "contract": {
-    "name": "Mnemonic",
-    "symbol": "M",
-    "shortDescription": "Absence as presence.",
-    "description": "Mnemonic is a single-edition generative artwork stored entirely onchain. The contract holds the complete WebGL source code and an HTML renderer, making the piece permanently accessible from the blockchain without external dependencies. A built-in marketplace allows the owner to list the work for sale or accept bids, with configurable royalties paid to the artist on every sale.",
-    "origin": "Created by Han Saglam (han.io). Deployed on Ethereum mainnet as a standalone art contract.",
-    "about": [
-      {
-        "heading": "About the artpiece",
-        "body": "Mnemonic (2024) is a one-of-one generative work by Han Saglam, realized entirely within an Ethereum smart contract. The piece renders an interactive three-dimensional environment through WebGL shaders that responds to the viewer's gesture — inviting a shift in perspective through direct manipulation. Both the source code and its HTML renderer are stored permanently onchain, making the work self-contained and independent of any external infrastructure. Mnemonic reflects Saglam's ongoing inquiry into digital permanence and the blockchain as artistic medium, foregrounding absence and presence as a conceptual axis."
-      },
-      {
-        "heading": "About the artist",
-        "body": "Han Saglam is an artist pioneering the world computer as an artistic medium, working through generative systems, smart contracts, data, and machine intelligence. His practice concentrates on autonomous systems and digital permanence — exploring how code functions as art. Works held in permanent collections at LACMA and Dataland Museum, and pieces have exceeded estimates at Sotheby's and Christie's."
-      },
-      {
-        "heading": "Built-in marketplace",
-        "body": "The contract includes a native marketplace for trading the artwork. The owner can list it for sale at a fixed price (publicly or to a specific address), and anyone can place bids. A configurable royalty percentage is paid to the royalty recipient on every sale or accepted bid. Sale proceeds and outbid returns are credited to pending withdrawals and must be claimed manually."
-      }
-    ],
-    "risks": [
-      "No upgradeability — contract logic is permanent and cannot be patched",
-      "ETH withdrawal pattern — sale proceeds and returned bids must be manually withdrawn via withdraw()",
-      "Royalty enforcement only applies to the built-in marketplace — external transfers via transferOwnership bypass royalties"
-    ],
-    "category": "nft",
-    "tags": ["art", "generative", "onchain", "1-of-1", "webgl", "interactive"],
-    "links": [
-      {
-        "label": "Etherscan",
-        "url": "https://etherscan.io/address/0xf3e732194ba87d68fd6ec3d5b1bf813599c8406a"
-      },
-      { "label": "Artist", "url": "https://han.io" },
-      { "label": "X (Twitter)", "url": "https://x.com/hanrgb" }
-    ]
-  },
+  "name": "Mnemonic",
+  "symbol": "M",
+  "description": "Mnemonic is a single-edition generative artwork stored entirely onchain. The contract holds the complete WebGL source code and an HTML renderer, making the piece permanently accessible from the blockchain without external dependencies. A built-in marketplace allows the owner to list the work for sale or accept bids, with configurable royalties paid to the artist on every sale.",
+  "about": "## About the artpiece\n\nMnemonic (2024) is a one-of-one generative work by Han Saglam, realized entirely within an Ethereum smart contract. The piece renders an interactive three-dimensional environment through WebGL shaders that responds to the viewer's gesture — inviting a shift in perspective through direct manipulation. Both the source code and its HTML renderer are stored permanently onchain, making the work self-contained and independent of any external infrastructure. Mnemonic reflects Saglam's ongoing inquiry into digital permanence and the blockchain as artistic medium, foregrounding absence and presence as a conceptual axis.\n\n## About the artist\n\nHan Saglam is an artist pioneering the world computer as an artistic medium, working through generative systems, smart contracts, data, and machine intelligence. His practice concentrates on autonomous systems and digital permanence — exploring how code functions as art. Works held in permanent collections at LACMA and Dataland Museum, and pieces have exceeded estimates at Sotheby's and Christie's.\n\n## Built-in marketplace\n\nThe contract includes a native marketplace for trading the artwork. The owner can list it for sale at a fixed price (publicly or to a specific address), and anyone can place bids. A configurable royalty percentage is paid to the royalty recipient on every sale or accepted bid. Sale proceeds and outbid returns are credited to pending withdrawals and must be claimed manually.",
+  "risks": [
+    "No upgradeability — contract logic is permanent and cannot be patched",
+    "ETH withdrawal pattern — sale proceeds and returned bids must be manually withdrawn via withdraw()",
+    "Royalty enforcement only applies to the built-in marketplace — external transfers via transferOwnership bypass royalties"
+  ],
+  "category": "nft",
+  "tags": ["art", "generative", "onchain", "1-of-1", "webgl", "interactive"],
+  "links": [
+    {
+      "label": "Etherscan",
+      "url": "https://etherscan.io/address/0xf3e732194ba87d68fd6ec3d5b1bf813599c8406a"
+    },
+    { "label": "Artist", "url": "https://han.io" },
+    { "label": "X (Twitter)", "url": "https://x.com/hanrgb" }
+  ],
   "groups": {
     "artwork": { "label": "Artwork", "order": 1 },
     "marketplace": { "label": "Marketplace", "order": 2 },

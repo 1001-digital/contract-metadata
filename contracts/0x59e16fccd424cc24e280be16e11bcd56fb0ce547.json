@@ -7,46 +7,25 @@
     "lastUpdated": "2026-03-28T00:00:00Z",
     "locale": "en"
   },
-  "contract": {
-    "name": "ENS ETH Registrar Controller",
-    "shortDescription": "Register, renew, and manage .eth names on the Ethereum Name Service.",
-    "description": "The user-facing controller for .eth name registrations on ENS. Implements a commit-reveal scheme to prevent front-running, enforces minimum registration duration (28 days), and collects ETH payment based on name length and duration. Names are priced in USD and converted to ETH via Chainlink. Recently expired names carry a temporary premium that decays exponentially over ~21 days.",
-    "origin": "Deployed September 2025 by ENS Labs (v1.6.0). Part of the ENS protocol, the decentralized naming system for Ethereum. Succeeds earlier controllers at 0x253553366Da8546fC250F225fe3d25d0C782303b (v3) and 0x283Af0B28c62C092C9727F1Ee09c02CA627EB7F5 (v2).",
-    "about": [
-      {
-        "heading": "Two-step registration (commit-reveal)",
-        "body": "Registering a .eth name requires two transactions to prevent front-running. First, the user submits a hidden commitment — a hash of the desired name, owner, duration, and a random secret. After waiting at least 60 seconds (but no more than 24 hours), the user reveals the registration details and pays the fee. This prevents miners or bots from seeing a pending registration and stealing the name by submitting their own transaction first."
-      },
-      {
-        "heading": "Pricing by name length",
-        "body": "Names are priced annually in USD, converted to ETH at the current exchange rate via Chainlink. Shorter names cost more: 5+ character names cost approximately $5/year, 4-character names ~$160/year, and 3-character names ~$640/year. Names must be at least 3 characters. The minimum registration duration is 28 days."
-      },
-      {
-        "heading": "Expired name premiums",
-        "body": "When a name expires, the owner has a 90-day grace period to renew. After the grace period, the name becomes available but carries a temporary premium that starts extremely high and decays exponentially — halving roughly every day. After about 21 days the premium becomes negligible. This Dutch auction mechanism ensures fair price discovery for desirable expired names and prevents sniping at the moment of expiry."
-      },
-      {
-        "heading": "The ENS architecture",
-        "body": "ENS separates concerns across multiple contracts. The ENS Registry maps names to owners and resolvers. The Base Registrar is the ERC-721 NFT contract that tracks .eth name ownership and expiry. This Controller is the user-facing entry point that orchestrates registration: it handles pricing, commit-reveal, and can atomically set a resolver and records (addresses, text records, content hashes) during registration. Resolvers are separate contracts that store the actual records a name points to."
-      }
-    ],
-    "risks": [
-      "Names expire — if not renewed, names become available for re-registration after a 90-day grace period",
-      "Commit-reveal timing — commitments expire after 24 hours and must wait at least 60 seconds before reveal",
-      "ETH price exposure — registration fees are priced in USD but paid in ETH at current exchange rate",
-      "Expired name premiums — recently expired names carry a decaying premium that can be very high initially"
-    ],
-    "category": "identity",
-    "tags": ["ens", "identity", "naming", "dns", "infrastructure"],
-    "links": [
-      { "label": "Etherscan", "url": "https://etherscan.io/address/0x59E16fcCd424Cc24e280Be16E11Bcd56fb0CE547" },
-      { "label": "ENS", "url": "https://ens.domains" },
-      { "label": "Documentation", "url": "https://docs.ens.domains" },
-      { "label": "ENS App", "url": "https://app.ens.domains" }
-    ],
-    "theme": {
-      "accent": "#5284FF"
-    }
+  "name": "ENS ETH Registrar Controller",
+  "description": "The user-facing controller for .eth name registrations on ENS. Implements a commit-reveal scheme to prevent front-running, enforces minimum registration duration (28 days), and collects ETH payment based on name length and duration. Names are priced in USD and converted to ETH via Chainlink. Recently expired names carry a temporary premium that decays exponentially over ~21 days.",
+  "about": "## Two-step registration (commit-reveal)\n\nRegistering a .eth name requires two transactions to prevent front-running. First, the user submits a hidden commitment — a hash of the desired name, owner, duration, and a random secret. After waiting at least 60 seconds (but no more than 24 hours), the user reveals the registration details and pays the fee. This prevents miners or bots from seeing a pending registration and stealing the name by submitting their own transaction first.\n\n## Pricing by name length\n\nNames are priced annually in USD, converted to ETH at the current exchange rate via Chainlink. Shorter names cost more: 5+ character names cost approximately $5/year, 4-character names ~$160/year, and 3-character names ~$640/year. Names must be at least 3 characters. The minimum registration duration is 28 days.\n\n## Expired name premiums\n\nWhen a name expires, the owner has a 90-day grace period to renew. After the grace period, the name becomes available but carries a temporary premium that starts extremely high and decays exponentially — halving roughly every day. After about 21 days the premium becomes negligible. This Dutch auction mechanism ensures fair price discovery for desirable expired names and prevents sniping at the moment of expiry.\n\n## The ENS architecture\n\nENS separates concerns across multiple contracts. The ENS Registry maps names to owners and resolvers. The Base Registrar is the ERC-721 NFT contract that tracks .eth name ownership and expiry. This Controller is the user-facing entry point that orchestrates registration: it handles pricing, commit-reveal, and can atomically set a resolver and records (addresses, text records, content hashes) during registration. Resolvers are separate contracts that store the actual records a name points to.",
+  "risks": [
+    "Names expire — if not renewed, names become available for re-registration after a 90-day grace period",
+    "Commit-reveal timing — commitments expire after 24 hours and must wait at least 60 seconds before reveal",
+    "ETH price exposure — registration fees are priced in USD but paid in ETH at current exchange rate",
+    "Expired name premiums — recently expired names carry a decaying premium that can be very high initially"
+  ],
+  "category": "identity",
+  "tags": ["ens", "identity", "naming", "dns", "infrastructure"],
+  "links": [
+    { "label": "Etherscan", "url": "https://etherscan.io/address/0x59E16fcCd424Cc24e280Be16E11Bcd56fb0CE547" },
+    { "label": "ENS", "url": "https://ens.domains" },
+    { "label": "Documentation", "url": "https://docs.ens.domains" },
+    { "label": "ENS App", "url": "https://app.ens.domains" }
+  ],
+  "theme": {
+    "accent": "#5284FF"
   },
   "groups": {
     "registration": { "label": "Registration", "order": 1 },

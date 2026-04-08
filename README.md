@@ -8,20 +8,23 @@ Contract Metadata is a JSON standard that layers human-readable context on top o
 
 ## Quick Example
 
+A CryptoPunks function with no metadata vs. with Contract Metadata:
+
+```
+offerPunkForSaleToAddress(uint256, uint256, address)
+```
+
 ```json
 {
   "$schema": "https://1001-digital.github.io/contract-metadata/v1/schema.json",
   "chainId": 1,
   "address": "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb",
-  "contract": {
-    "name": "CryptoPunks",
-    "shortDescription": "10,000 unique collectible pixel art characters on Ethereum.",
-    "category": "nft"
-  },
   "functions": {
     "offerPunkForSaleToAddress": {
       "title": "List Punk for Sale (Private)",
       "description": "List a punk for sale to a specific address only.",
+      "warning": "This creates a binding offer. The buyer can purchase at any time.",
+      "intent": "List Punk #{punkIndex} for sale at {minSalePriceInWei} to {toAddress}",
       "params": {
         "punkIndex": { "label": "Punk", "type": "token-id" },
         "minSalePriceInWei": { "label": "Price", "type": "eth" },
@@ -53,7 +56,7 @@ npm run validate
 
 1. Create a file in `contracts/` named `{lowercase-address}.json`
 2. Follow the schema at `schema/contract-metadata.schema.json`
-3. Include at minimum: `$schema`, `chainId`, `address`, and `contract.name`
+3. Include at minimum: `$schema`, `chainId`, `address`, and `name`
 4. Run `npm run validate` to check your file
 
 ## Extensions

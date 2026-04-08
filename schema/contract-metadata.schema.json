@@ -31,8 +31,81 @@
       "$ref": "#/$defs/DocumentMeta",
       "description": "Document-level housekeeping: revision tracking, locale, and authenticity."
     },
-    "contract": {
-      "$ref": "#/$defs/ContractMeta"
+    "name": {
+      "type": "string",
+      "description": "Human-readable contract name (ERC-7572: name)."
+    },
+    "symbol": {
+      "type": "string",
+      "description": "Contract or token symbol (ERC-7572: symbol)."
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the contract (ERC-7572: description)."
+    },
+    "image": {
+      "type": "string",
+      "format": "uri",
+      "description": "Contract image or logo URI (ERC-7572: image)."
+    },
+    "banner_image": {
+      "type": "string",
+      "format": "uri",
+      "description": "Banner image URI (ERC-7572: banner_image)."
+    },
+    "featured_image": {
+      "type": "string",
+      "format": "uri",
+      "description": "Featured image URI (ERC-7572: featured_image)."
+    },
+    "external_link": {
+      "type": "string",
+      "format": "uri",
+      "description": "Primary external URL for the project (ERC-7572: external_link)."
+    },
+    "collaborators": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^0x[0-9a-fA-F]{40}$"
+      },
+      "description": "Ethereum addresses of authorized metadata editors (ERC-7572: collaborators)."
+    },
+    "about": {
+      "type": "string",
+      "description": "Long-form context, history, and explanations in Markdown format."
+    },
+    "category": {
+      "type": "string",
+      "description": "Primary category. Standard values: token, nft, defi, governance, bridge, oracle, utility, game, social, identity. Custom values are allowed."
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Free-form tags for search and categorization."
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Link"
+      },
+      "description": "External links (website, documentation, block explorer, etc.)."
+    },
+    "risks": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Known risks or caveats users should be aware of."
+    },
+    "audits": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AuditReference"
+      },
+      "description": "Security audit references."
+    },
+    "theme": {
+      "$ref": "#/$defs/Theme",
+      "description": "Visual theme for UI rendering. Color model inspired by ENSIP-18."
     },
     "groups": {
       "type": "object",
@@ -101,106 +174,6 @@
         }
       }
     },
-    "ContractMeta": {
-      "type": "object",
-      "description": "Contract-level context and metadata. The name, symbol, description, image, banner_image, featured_image, and external_link fields are compatible with ERC-7572.",
-      "additionalProperties": false,
-      "patternProperties": {
-        "^_[a-zA-Z]": {
-          "description": "Extension object. Names must start with _ followed by a letter. Consumers that do not understand a given extension must ignore it."
-        }
-      },
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "Human-readable contract name (ERC-7572: name)."
-        },
-        "symbol": {
-          "type": "string",
-          "description": "Contract or token symbol (ERC-7572: symbol)."
-        },
-        "description": {
-          "type": "string",
-          "description": "Description of the contract (ERC-7572: description)."
-        },
-        "image": {
-          "type": "string",
-          "format": "uri",
-          "description": "Contract image or logo URI (ERC-7572: image)."
-        },
-        "banner_image": {
-          "type": "string",
-          "format": "uri",
-          "description": "Banner image URI (ERC-7572: banner_image)."
-        },
-        "featured_image": {
-          "type": "string",
-          "format": "uri",
-          "description": "Featured image URI (ERC-7572: featured_image)."
-        },
-        "external_link": {
-          "type": "string",
-          "format": "uri",
-          "description": "Primary external URL for the project (ERC-7572: external_link)."
-        },
-        "collaborators": {
-          "type": "array",
-          "items": {
-            "type": "string",
-            "pattern": "^0x[0-9a-fA-F]{40}$"
-          },
-          "description": "Ethereum addresses of authorized metadata editors (ERC-7572: collaborators)."
-        },
-        "shortDescription": {
-          "type": "string",
-          "maxLength": 200,
-          "description": "One-line description of the contract (under 200 characters)."
-        },
-        "origin": {
-          "type": "string",
-          "description": "Provenance information: who deployed it, when, and relevant history."
-        },
-        "category": {
-          "type": "string",
-          "description": "Primary category. Standard values: token, nft, defi, governance, bridge, oracle, utility, game, social, identity. Custom values are allowed."
-        },
-        "tags": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "Free-form tags for search and categorization."
-        },
-        "links": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Link"
-          },
-          "description": "External links (website, documentation, block explorer, etc.)."
-        },
-        "risks": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "Known risks or caveats users should be aware of."
-        },
-        "audits": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/AuditReference"
-          },
-          "description": "Security audit references."
-        },
-        "about": {
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/AboutSection"
-          },
-          "description": "Rich content sections providing context, history, and explanations."
-        },
-        "theme": {
-          "$ref": "#/$defs/Theme",
-          "description": "Visual theme for UI rendering. Color model inspired by ENSIP-18."
-        }
-      }
-    },
     "Theme": {
       "type": "object",
       "description": "Visual theme colors for UI rendering. Inspired by ENSIP-18. Accent and text colors should maintain a 4.5:1 contrast ratio against the background.",
@@ -230,21 +203,6 @@
           "type": "string",
           "pattern": "^#[0-9a-fA-F]{6}$",
           "description": "Border color."
-        }
-      }
-    },
-    "AboutSection": {
-      "type": "object",
-      "required": ["heading", "body"],
-      "additionalProperties": false,
-      "properties": {
-        "heading": {
-          "type": "string",
-          "description": "Section heading."
-        },
-        "body": {
-          "type": "string",
-          "description": "Section content. Paragraphs are separated by double newlines (\\n\\n)."
         }
       }
     },

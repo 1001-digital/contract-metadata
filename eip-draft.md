@@ -35,7 +35,9 @@ A metadata file describes a single deployed contract:
   "$schema": "https://1001-digital.github.io/contract-metadata/v1/schema.json",
   "chainId": 1,
   "address": "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb",
-  "contract": { ... },
+  "name": "CryptoPunks",
+  "description": "10,000 unique collectible pixel art characters on Ethereum.",
+  "image": "ipfs://QmTNgv3jx2HHfBjQX9RnKtxj2xv2xQDtbDXoRi5rJ3a46",
   "groups": { ... },
   "functions": { ... },
   "events": { ... },
@@ -45,54 +47,74 @@ A metadata file describes a single deployed contract:
 
 ### Top-Level Fields
 
+#### Document Fields
+
 | Field       | Type     | Required | Description                                                              |
 | ----------- | -------- | -------- | ------------------------------------------------------------------------ |
 | `$schema`   | `string` | REQUIRED | URI pointing to the contract-metadata JSON Schema                        |
 | `chainId`   | `number` | REQUIRED | The chain ID of the network where the contract is deployed               |
 | `address`   | `string` | REQUIRED | The contract address (lowercase, checksummed addresses MUST be accepted) |
 | `includes`  | `array`  | OPTIONAL | Interface identifiers to include (e.g. `["interface:erc721"]`)           |
-| `meta`      | `object` | OPTIONAL | Document housekeeping (authors, version, lastUpdated, locale, signature) |
-| `contract`  | `object` | OPTIONAL | Contract-level context (title, description, about, links, etc.)          |
+| `meta`      | `object` | OPTIONAL | Document housekeeping (version, lastUpdated, locale, signature)          |
+
+#### Contract-Level Context
+
+The following fields provide context about the contract itself. The fields `name`, `symbol`, `description`, `image`, `banner_image`, `featured_image`, `external_link`, and `collaborators` are compatible with [ERC-7572](./eip-7572.md) -- a contract-metadata document with `name` present is a valid ERC-7572 `contractURI()` response. The `theme` color model is inspired by [ENSIP-18](https://docs.ens.domains/ensip/18).
+
+| Field            | Type     | Required | Description                                                              |
+| ---------------- | -------- | -------- | ------------------------------------------------------------------------ |
+| `name`           | `string` | OPTIONAL | Human-readable contract name (ERC-7572)                                  |
+| `symbol`         | `string` | OPTIONAL | Contract or token symbol (ERC-7572)                                      |
+| `description`    | `string` | OPTIONAL | Description of the contract (ERC-7572)                                   |
+| `image`          | `string` | OPTIONAL | Contract image or logo URI (ERC-7572)                                    |
+| `banner_image`   | `string` | OPTIONAL | Banner image URI (ERC-7572)                                              |
+| `featured_image` | `string` | OPTIONAL | Featured image URI (ERC-7572)                                            |
+| `external_link`  | `string` | OPTIONAL | Primary external URL for the project (ERC-7572)                          |
+| `collaborators`  | `array`  | OPTIONAL | Ethereum addresses of authorized metadata editors (ERC-7572)             |
+| `about`          | `string` | OPTIONAL | Long-form context, history, and explanations in Markdown                 |
+| `category`       | `string` | OPTIONAL | Primary category (token, nft, defi, governance, bridge, etc.)            |
+| `tags`           | `array`  | OPTIONAL | Free-form tags for search and categorization                             |
+| `links`          | `array`  | OPTIONAL | External links (website, documentation, block explorer, etc.)            |
+| `risks`          | `array`  | OPTIONAL | Known risks or caveats users should be aware of                          |
+| `audits`         | `array`  | OPTIONAL | Security audit references                                                |
+| `theme`          | `object` | OPTIONAL | Visual theme for UI rendering                                            |
+
+#### Interface Metadata
+
+| Field       | Type     | Required | Description                                                              |
+| ----------- | -------- | -------- | ------------------------------------------------------------------------ |
 | `groups`    | `object` | OPTIONAL | Named groups for organizing functions                                    |
 | `functions` | `object` | OPTIONAL | Per-function metadata, keyed by name, signature, or 4-byte selector      |
 | `events`    | `object` | OPTIONAL | Per-event metadata, keyed by name, signature, or 32-byte topic hash      |
 | `errors`    | `object` | OPTIONAL | Per-error metadata, keyed by name, signature, or 4-byte selector         |
 | `messages`  | `object` | OPTIONAL | EIP-712 typed message metadata, keyed by primary type name               |
 
-### Contract Object
-
-The `contract` object provides context about the contract itself. The fields `name`, `symbol`, `description`, `image`, `banner_image`, `featured_image`, `external_link`, and `collaborators` are compatible with [ERC-7572](./eip-7572.md). The `theme` color model is inspired by [ENSIP-18](https://docs.ens.domains/ensip/18).
+### Contract-Level Example
 
 ```json
 {
-  "contract": {
-    "name": "CryptoPunks",
-    "symbol": "PUNK",
-    "shortDescription": "10,000 unique collectible pixel art characters on Ethereum.",
-    "description": "One of the earliest NFT projects, predating the ERC-721 standard...",
-    "image": "ipfs://QmTNgv3jx2HHfBjQX9RnKtxj2xv2xQDtbDXoRi5rJ3a46",
-    "external_link": "https://cryptopunks.app",
-    "origin": "Deployed June 2017 by Larva Labs.",
-    "category": "nft",
-    "tags": ["nft", "collectible", "pfp"],
-    "links": [{ "label": "Website", "url": "https://..." }],
-    "risks": ["No upgradeability. Bugs are permanent"],
-    "audits": [
-      { "auditor": "Trail of Bits", "url": "https://...", "date": "2023-01-15" }
-    ],
-    "about": [
-      {
-        "heading": "10,000 unique collectible characters",
-        "body": "CryptoPunks extend the collecting impulse into the digital realm..."
-      }
-    ],
-    "theme": {
-      "background": "#000000",
-      "text": "#ffffff",
-      "accent": "#ff04b4",
-      "accentText": "#ffffff",
-      "border": "#333333"
-    }
+  "$schema": "https://1001-digital.github.io/contract-metadata/v1/schema.json",
+  "chainId": 1,
+  "address": "0xb47e3cd837ddf8e4c57f05d70ab865de6e193bbb",
+  "name": "CryptoPunks",
+  "symbol": "PUNK",
+  "description": "One of the earliest NFT projects, predating the ERC-721 standard...",
+  "image": "ipfs://QmTNgv3jx2HHfBjQX9RnKtxj2xv2xQDtbDXoRi5rJ3a46",
+  "external_link": "https://cryptopunks.app",
+  "category": "nft",
+  "tags": ["nft", "collectible", "pfp"],
+  "links": [{ "label": "Website", "url": "https://..." }],
+  "risks": ["No upgradeability. Bugs are permanent"],
+  "audits": [
+    { "auditor": "Trail of Bits", "url": "https://...", "date": "2023-01-15" }
+  ],
+  "about": "## 10,000 unique collectible characters\n\nCryptoPunks extend the collecting impulse into the digital realm...",
+  "theme": {
+    "background": "#000000",
+    "text": "#ffffff",
+    "accent": "#ff04b4",
+    "accentText": "#ffffff",
+    "border": "#333333"
   }
 }
 ```
@@ -312,7 +334,7 @@ Common interface metadata (ERC-20, ERC-721, etc.) can be defined once and includ
   "$schema": "https://1001-digital.github.io/contract-metadata/v1/schema.json",
   "chainId": 1,
   "address": "0x036721e5a769cc48b3189efbb9cce4471e8a48b1",
-  "contract": { "name": "Checks Originals" },
+  "name": "Checks Originals",
   "functions": {
     "mint": { "...": "..." },
     "composite": { "...": "..." }
@@ -367,7 +389,7 @@ Messages are keyed by EIP-712 primary type name and MUST be defined on the contr
 
 ### Extensions
 
-Publishers MAY use custom extension objects on the root document, contract metadata, functions, events, errors, messages, and parameters. Extension names MUST start with an `_` character followed by a letter. Consumers that do not understand a given extension MUST ignore it.
+Publishers MAY use custom extension objects on the root document, functions, events, errors, messages, and parameters. Extension names MUST start with an `_` character followed by a letter. Consumers that do not understand a given extension MUST ignore it.
 
 ```json
 {
@@ -417,6 +439,8 @@ Bare names are the common case and the most readable. Signatures are needed for 
 
 This EIP introduces a new metadata format and does not modify any existing standards. It is fully complementary to ABIs, NatSpec, ERC-7572, and EIP-7730.
 
+Contract-level fields (`name`, `symbol`, `description`, `image`, `banner_image`, `featured_image`, `external_link`, `collaborators`) are placed at the top level to maintain backwards compatibility with [ERC-7572](./eip-7572.md). A contract-metadata document with `name` present is a valid ERC-7572 `contractURI()` response -- existing consumers that understand only ERC-7572 will read the fields they recognize and ignore the rest.
+
 ## Reference Implementation
 
 A reference implementation including JSON Schema definitions and a validation script is available at [https://github.com/1001-digital/contract-metadata](https://github.com/1001-digital/contract-metadata).
@@ -427,7 +451,7 @@ The repository includes:
 - `schema/interface.schema.json` -- JSON Schema for interface files
 - `schema/interfaces/` -- Reusable interface metadata (ERC-20, ERC-721)
 - `contracts/` -- Example metadata files for deployed contracts
-- `validate.js` -- Schema and semantic validation script
+- `validate.ts` -- Schema and semantic validation script
 
 ## Security Considerations
 
