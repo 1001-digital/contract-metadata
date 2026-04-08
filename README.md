@@ -56,7 +56,7 @@ npm run validate
 
 1. Create a file in `contracts/` named `{lowercase-address}.json`
 2. Follow the schema at `schema/contract-metadata.schema.json`
-3. Include at minimum: `$schema`, `chainId`, `address`, and `contract.name`
+3. Include at minimum: `$schema`, `chainId`, `address`, and `name`
 4. Run `npm run validate` to check your file
 
 ## Extensions

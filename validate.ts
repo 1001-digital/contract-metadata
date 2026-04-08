@@ -64,8 +64,8 @@ if (runContracts && existsSync('contracts')) {
   }
 }
 
-if (runInterfaces && existsSync('interfaces')) {
-  const interfaceDir = 'interfaces'
+if (runInterfaces && existsSync('schema/interfaces')) {
+  const interfaceDir = 'schema/interfaces'
   const files = readdirSync(interfaceDir).filter(f => f.endsWith('.json'))
 
   for (const file of files) {
